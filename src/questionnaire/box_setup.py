@@ -173,33 +173,19 @@ How much vertical space does the box lid need when closed?
         svg_width *= scale_factor
         svg_height *= scale_factor
 
-    box_svg = f"""
-    <svg width="{svg_width + 40}" height="{svg_height + 60}" xmlns="http://www.w3.org/2000/svg">
-        <!-- Box outline -->
-        <rect x="20" y="20" width="{svg_width}" height="{svg_height}"
-              fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+    # Generate SVG as single-line string to prevent markdown code block rendering
+    box_svg = (
+        f'<svg width="{svg_width + 40}" height="{svg_height + 60}" xmlns="http://www.w3.org/2000/svg">'
+        f'<rect x="20" y="20" width="{svg_width}" height="{svg_height}" fill="#f0f0f0" stroke="#333" stroke-width="2"/>'
+        f'<text x="{svg_width/2 + 20}" y="15" font-size="12" fill="#666" text-anchor="middle">{config["length"]} mm</text>'
+        f'<text x="10" y="{svg_height/2 + 20}" font-size="12" fill="#666" text-anchor="middle" transform="rotate(-90, 10, {svg_height/2 + 20})">{config["width"]} mm</text>'
+        f'<text x="{svg_width + 25}" y="{svg_height/2 + 20}" font-size="11" fill="#999">↕ {available_height}mm</text>'
+        f'<text x="{svg_width + 25}" y="{svg_height/2 + 35}" font-size="9" fill="#999">available</text>'
+        f'</svg>'
+    )
 
-        <!-- Dimensions -->
-        <text x="{svg_width/2 + 20}" y="15" font-size="12" fill="#666" text-anchor="middle">
-            {config['length']} mm
-        </text>
-        <text x="10" y="{svg_height/2 + 20}" font-size="12" fill="#666" text-anchor="middle"
-              transform="rotate(-90, 10, {svg_height/2 + 20})">
-            {config['width']} mm
-        </text>
-
-        <!-- Height indicator -->
-        <text x="{svg_width + 25}" y="{svg_height/2 + 20}" font-size="11" fill="#999">
-            ↕ {available_height}mm
-        </text>
-        <text x="{svg_width + 25}" y="{svg_height/2 + 35}" font-size="9" fill="#999">
-            available
-        </text>
-    </svg>
-    """
-
-    # Render SVG in a div container to prevent code display
-    st.markdown(f'<div style="text-align: center;">{box_svg.strip()}</div>', unsafe_allow_html=True)
+    # Render SVG centered
+    st.markdown(f'<div style="text-align: center;">{box_svg}</div>', unsafe_allow_html=True)
 
     # Validation warnings
     if available_height < 30:
