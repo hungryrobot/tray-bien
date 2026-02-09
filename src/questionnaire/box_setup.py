@@ -198,7 +198,8 @@ How much vertical space does the box lid need when closed?
     </svg>
     """
 
-    st.markdown(box_svg.strip(), unsafe_allow_html=True)
+    # Render SVG in a div container to prevent code display
+    st.markdown(f'<div style="text-align: center;">{box_svg.strip()}</div>', unsafe_allow_html=True)
 
     # Validation warnings
     if available_height < 30:
