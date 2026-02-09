@@ -232,7 +232,7 @@ def render_components_inventory():
                             if 'diameter' in component:
                                 del component['diameter']
 
-                        component['thickness'] = st.number_input("Thickness (mm):", value=component.get('thickness', 2), step=0.1, format="%.1f", key=f"tt_{component['id']}")
+                        component['thickness'] = st.number_input("Thickness (mm):", value=component.get('thickness', 2.0), step=0.1, format="%.1f", key=f"tt_{component['id']}")
 
                 elif comp_type == 'Meeples/Minis':
                     meeple_standards = standards['meeples']
