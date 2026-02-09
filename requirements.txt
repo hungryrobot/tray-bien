@@ -1,0 +1,14 @@
+# Core dependencies
+streamlit>=1.29.0
+pillow>=10.0.0
+
+# AI Provider SDKs
+anthropic>=0.18.0
+openai>=1.10.0
+google-generativeai>=0.3.0
+
+# HTTP for Ollama
+requests>=2.31.0
+
+# Optional: Bambu Labs printer integration (install separately if needed)
+# bambulabs-api>=0.5.0

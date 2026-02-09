@@ -1,0 +1,3 @@
+[submodule "lib/BIT"]
+	path = lib/BIT
+	url = https://github.com/dppdppd/The-Boardgame-Insert-Toolkit.git

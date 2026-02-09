@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tray-bien"
+version = "0.1.0"
+description = "Board Game Insert Generator - Design custom 3D-printable game inserts"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Avrom", email = "avrom@example.com"}
+]
+keywords = ["3d-printing", "board-games", "openscad", "streamlit", "inserts"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "streamlit>=1.29.0",
+    "pillow>=10.0.0",
+    "anthropic>=0.18.0",
+    "openai>=1.10.0",
+    "google-generativeai>=0.3.0",
+    "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+]
+printer = [
+    "bambulabs-api>=0.5.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/hungryrobot/tray-bien"
+Repository = "https://github.com/hungryrobot/tray-bien"

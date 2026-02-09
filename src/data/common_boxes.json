@@ -1,0 +1,190 @@
+{
+  "boxes": {
+    "Catan": {
+      "name": "Catan (5th Edition)",
+      "dimensions": {
+        "length": 296,
+        "width": 296,
+        "height": 74
+      },
+      "notes": "Standard square box, accommodate hex tiles and resource cards"
+    },
+    "Wingspan": {
+      "name": "Wingspan",
+      "dimensions": {
+        "length": 296,
+        "width": 296,
+        "height": 71
+      },
+      "notes": "Many small tokens, eggs, and sleeved cards common"
+    },
+    "Ticket to Ride": {
+      "name": "Ticket to Ride (USA)",
+      "dimensions": {
+        "length": 296,
+        "width": 296,
+        "height": 71
+      },
+      "notes": "Train cards and many plastic train pieces"
+    },
+    "Pandemic": {
+      "name": "Pandemic",
+      "dimensions": {
+        "length": 296,
+        "width": 207,
+        "height": 71
+      },
+      "notes": "Cards, cubes, and pawns"
+    },
+    "Azul": {
+      "name": "Azul",
+      "dimensions": {
+        "length": 268,
+        "width": 268,
+        "height": 66
+      },
+      "notes": "100 ceramic tiles, player boards"
+    },
+    "Splendor": {
+      "name": "Splendor",
+      "dimensions": {
+        "length": 198,
+        "width": 198,
+        "height": 54
+      },
+      "notes": "Poker chips and cards"
+    },
+    "7 Wonders": {
+      "name": "7 Wonders",
+      "dimensions": {
+        "length": 296,
+        "width": 296,
+        "height": 71
+      },
+      "notes": "Many cards, tokens, and wonder boards"
+    },
+    "Everdell": {
+      "name": "Everdell",
+      "dimensions": {
+        "length": 296,
+        "width": 296,
+        "height": 90
+      },
+      "notes": "Unique tree tower, many resource tokens and cards"
+    },
+    "Terraforming Mars": {
+      "name": "Terraforming Mars",
+      "dimensions": {
+        "length": 296,
+        "width": 296,
+        "height": 71
+      },
+      "notes": "Many cards, cubes, and player boards"
+    },
+    "Spirit Island": {
+      "name": "Spirit Island",
+      "dimensions": {
+        "length": 296,
+        "width": 296,
+        "height": 90
+      },
+      "notes": "Deep box, many tokens and cards"
+    },
+    "Gloomhaven": {
+      "name": "Gloomhaven",
+      "dimensions": {
+        "length": 349,
+        "width": 275,
+        "height": 122
+      },
+      "notes": "Massive box, hundreds of components, multiple trays recommended"
+    },
+    "Arkham Horror LCG": {
+      "name": "Arkham Horror: The Card Game",
+      "dimensions": {
+        "length": 296,
+        "width": 296,
+        "height": 71
+      },
+      "notes": "Designed for sleeved cards, expandable"
+    },
+    "Dominion": {
+      "name": "Dominion (2nd Edition)",
+      "dimensions": {
+        "length": 296,
+        "width": 296,
+        "height": 71
+      },
+      "notes": "All cards, vertical card storage recommended"
+    },
+    "Codenames": {
+      "name": "Codenames",
+      "dimensions": {
+        "length": 190,
+        "width": 190,
+        "height": 54
+      },
+      "notes": "Cards and card holder, simple insert"
+    },
+    "Root": {
+      "name": "Root",
+      "dimensions": {
+        "length": 296,
+        "width": 296,
+        "height": 71
+      },
+      "notes": "Many wooden pieces, cards, and faction boards"
+    },
+    "Scythe": {
+      "name": "Scythe",
+      "dimensions": {
+        "length": 366,
+        "width": 275,
+        "height": 90
+      },
+      "notes": "Large box, mechs, resources, and boards"
+    },
+    "Brass Birmingham": {
+      "name": "Brass: Birmingham",
+      "dimensions": {
+        "length": 296,
+        "width": 296,
+        "height": 71
+      },
+      "notes": "Poker chips, cards, and player boards"
+    },
+    "Viticulture": {
+      "name": "Viticulture Essential Edition",
+      "dimensions": {
+        "length": 296,
+        "width": 296,
+        "height": 71
+      },
+      "notes": "Cards, wooden pieces, and player mats"
+    },
+    "Parks": {
+      "name": "Parks",
+      "dimensions": {
+        "length": 296,
+        "width": 207,
+        "height": 71
+      },
+      "notes": "Beautiful cards, wooden tokens, and canteen tokens"
+    },
+    "Cascadia": {
+      "name": "Cascadia",
+      "dimensions": {
+        "length": 296,
+        "width": 296,
+        "height": 71
+      },
+      "notes": "Hex tiles, wooden tokens, and cards"
+    }
+  },
+  "metadata": {
+    "version": "1.0",
+    "units": "millimeters",
+    "notes": "All dimensions are INNER box measurements. Subtract ~2mm per side from outer box dimensions for cardboard thickness.",
+    "measurement_advice": "For best results, measure your actual box interior with calipers. Cardboard boxes can vary ±1-2mm from published specs."
+  }
+}
