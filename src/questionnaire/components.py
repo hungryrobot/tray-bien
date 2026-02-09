@@ -117,6 +117,19 @@ def render_components_inventory():
                         index=['Cards', 'Tokens', 'Dice', 'Meeples/Minis', 'Boards', 'Rulebook', 'Custom'].index(component['type']),
                         key=f"type_{component['id']}"
                     )
+
+                    # Detect type change and clear type-specific fields
+                    if component.get('_last_type') != comp_type:
+                        # Type changed - clear type-specific fields
+                        fields_to_clear = ['width', 'height', 'depth', 'diameter', 'thickness',
+                                         'thickness_per_card', 'card_count', 'name', 'length']
+                        for field in fields_to_clear:
+                            if field in component:
+                                del component[field]
+                        # Set name to new type default
+                        component['name'] = comp_type
+                        component['_last_type'] = comp_type
+
                     component['type'] = comp_type
 
                 with col2:
@@ -161,9 +174,9 @@ def render_components_inventory():
                         # Custom card dimensions
                         c1, c2, c3 = st.columns(3)
                         with c1:
-                            component['width'] = st.number_input("Width (mm):", value=component.get('width', 63.5), key=f"cw_{component['id']}")
+                            component['width'] = st.number_input("Width (mm):", value=component.get('width', 63.5), step=0.1, format="%.1f", key=f"cw_{component['id']}")
                         with c2:
-                            component['height'] = st.number_input("Height (mm):", value=component.get('height', 88), key=f"ch_{component['id']}")
+                            component['height'] = st.number_input("Height (mm):", value=component.get('height', 88.0), step=0.1, format="%.1f", key=f"ch_{component['id']}")
                         with c3:
                             component['thickness_per_card'] = st.number_input("Thickness/card (mm):", value=component.get('thickness_per_card', 0.3), step=0.1, format="%.2f", key=f"ct_{component['id']}")
 
@@ -219,16 +232,16 @@ def render_components_inventory():
                         # Custom token
                         token_shape = st.radio("Shape:", ['Round', 'Square'], horizontal=True, key=f"shape_{component['id']}")
                         if token_shape == 'Round':
-                            component['diameter'] = st.number_input("Diameter (mm):", value=component.get('diameter', 25), key=f"td_{component['id']}")
+                            component['diameter'] = st.number_input("Diameter (mm):", value=component.get('diameter', 25.0), step=0.1, format="%.1f", key=f"td_{component['id']}")
                             if 'width' in component:
                                 del component['width']
                                 del component['height']
                         else:
                             c1, c2 = st.columns(2)
                             with c1:
-                                component['width'] = st.number_input("Width (mm):", value=component.get('width', 25), key=f"tw_{component['id']}")
+                                component['width'] = st.number_input("Width (mm):", value=component.get('width', 25.0), step=0.1, format="%.1f", key=f"tw_{component['id']}")
                             with c2:
-                                component['height'] = st.number_input("Height (mm):", value=component.get('height', 25), key=f"th_{component['id']}")
+                                component['height'] = st.number_input("Height (mm):", value=component.get('height', 25.0), step=0.1, format="%.1f", key=f"th_{component['id']}")
                             if 'diameter' in component:
                                 del component['diameter']
 
@@ -261,11 +274,11 @@ def render_components_inventory():
                     else:
                         c1, c2, c3 = st.columns(3)
                         with c1:
-                            component['width'] = st.number_input("Width (mm):", value=component.get('width', 14), key=f"mw_{component['id']}")
+                            component['width'] = st.number_input("Width (mm):", value=component.get('width', 14.0), step=0.1, format="%.1f", key=f"mw_{component['id']}")
                         with c2:
-                            component['height'] = st.number_input("Height (mm):", value=component.get('height', 16), key=f"mh_{component['id']}")
+                            component['height'] = st.number_input("Height (mm):", value=component.get('height', 16.0), step=0.1, format="%.1f", key=f"mh_{component['id']}")
                         with c3:
-                            component['depth'] = st.number_input("Depth (mm):", value=component.get('depth', 8), key=f"md_{component['id']}")
+                            component['depth'] = st.number_input("Depth (mm):", value=component.get('depth', 8.0), step=0.1, format="%.1f", key=f"md_{component['id']}")
 
                 elif comp_type == 'Boards':
                     board_standards = standards['boards']
@@ -288,9 +301,9 @@ def render_components_inventory():
                     else:
                         c1, c2, c3 = st.columns(3)
                         with c1:
-                            component['width'] = st.number_input("Width (mm):", value=component.get('width', 200), key=f"bw_{component['id']}")
+                            component['width'] = st.number_input("Width (mm):", value=component.get('width', 200.0), step=0.5, format="%.1f", key=f"bw_{component['id']}")
                         with c2:
-                            component['height'] = st.number_input("Height (mm):", value=component.get('height', 150), key=f"bh_{component['id']}")
+                            component['height'] = st.number_input("Height (mm):", value=component.get('height', 150.0), step=0.5, format="%.1f", key=f"bh_{component['id']}")
                         with c3:
                             component['thickness'] = st.number_input("Thickness (mm):", value=component.get('thickness', 2.5), step=0.5, format="%.1f", key=f"bt_{component['id']}")
 
@@ -315,21 +328,21 @@ def render_components_inventory():
                     else:
                         c1, c2, c3 = st.columns(3)
                         with c1:
-                            component['width'] = st.number_input("Width (mm):", value=component.get('width', 140), key=f"rw_{component['id']}")
+                            component['width'] = st.number_input("Width (mm):", value=component.get('width', 140.0), step=0.5, format="%.1f", key=f"rw_{component['id']}")
                         with c2:
-                            component['height'] = st.number_input("Height (mm):", value=component.get('height', 210), key=f"rh_{component['id']}")
+                            component['height'] = st.number_input("Height (mm):", value=component.get('height', 210.0), step=0.5, format="%.1f", key=f"rh_{component['id']}")
                         with c3:
-                            component['thickness'] = st.number_input("Thickness (mm):", value=component.get('thickness', 5), key=f"rt_{component['id']}")
+                            component['thickness'] = st.number_input("Thickness (mm):", value=component.get('thickness', 5.0), step=0.1, format="%.1f", key=f"rt_{component['id']}")
 
                 elif comp_type == 'Custom':
                     st.markdown("**Custom component dimensions:**")
                     c1, c2, c3 = st.columns(3)
                     with c1:
-                        component['length'] = st.number_input("Length (mm):", value=component.get('length', 50), key=f"cl_{component['id']}")
+                        component['length'] = st.number_input("Length (mm):", value=component.get('length', 50.0), step=0.1, format="%.1f", key=f"cl_{component['id']}")
                     with c2:
-                        component['width'] = st.number_input("Width (mm):", value=component.get('width', 50), key=f"cw_{component['id']}")
+                        component['width'] = st.number_input("Width (mm):", value=component.get('width', 50.0), step=0.1, format="%.1f", key=f"cw_{component['id']}")
                     with c3:
-                        component['height'] = st.number_input("Height (mm):", value=component.get('height', 10), key=f"ch_{component['id']}")
+                        component['height'] = st.number_input("Height (mm):", value=component.get('height', 10.0), step=0.1, format="%.1f", key=f"ch_{component['id']}")
 
                 # Delete button
                 if st.button(f"🗑️ Remove", key=f"remove_{component['id']}"):
