@@ -125,7 +125,11 @@ def render_box_setup():
     # Lid clearance slider
     st.markdown("---")
     st.markdown("#### 🎩 Lid Clearance")
-    st.markdown("How much vertical space does the box lid need when closed? (Usually 2-5mm)")
+    st.markdown("""
+How much vertical space does the box lid need when closed?
+
+**Typical values:** 3-5mm for most games | **Tight fit:** 2mm | **Deep lid:** 6-10mm
+""")
 
     config['lid_clearance'] = st.slider(
         "Lid clearance (mm):",
@@ -133,7 +137,7 @@ def render_box_setup():
         max_value=15,
         value=config['lid_clearance'],
         step=1,
-        help="Extra space between top of insert and box lid. Accounts for lid thickness and fit tolerance."
+        help="Space between top of insert and box lid. Accounts for lid thickness and cardboard compression. Typical: 3-5mm"
     )
 
     # Calculate available volume
@@ -194,7 +198,7 @@ def render_box_setup():
     </svg>
     """
 
-    st.markdown(box_svg, unsafe_allow_html=True)
+    st.markdown(box_svg.strip(), unsafe_allow_html=True)
 
     # Validation warnings
     if available_height < 30:
