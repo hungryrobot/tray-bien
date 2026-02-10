@@ -42,7 +42,27 @@ def extract_text_from_pdf(pdf_file, max_pages=50) -> str:
         combined_text = re.sub(r' {2,}', ' ', combined_text)  # Max 1 space
 
         if not combined_text.strip():
-            raise Exception("No text could be extracted from the PDF. It may be image-based or empty.")
+            # Check if PDF contains images (scanned/image-based)
+            has_images = False
+            try:
+                with pdfplumber.open(pdf_file) as pdf:
+                    for page in pdf.pages[:5]:  # Check first 5 pages
+                        if page.images:
+                            has_images = True
+                            break
+            except:
+                pass
+
+            if has_images:
+                raise Exception(
+                    "This PDF appears to be scanned or image-based and requires OCR (Optical Character Recognition) "
+                    "to extract text. Please use a digital PDF with selectable text, or add components manually."
+                )
+            else:
+                raise Exception(
+                    "No text could be extracted from this PDF. It may be empty, corrupted, or in an unsupported format. "
+                    "Please try a different PDF or add components manually."
+                )
 
         return combined_text.strip()
 

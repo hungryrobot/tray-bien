@@ -290,48 +290,26 @@ def wall_thickness_diagram() -> str:
     """
 
 def clearance_zones_diagram() -> str:
-    """
-    Top view showing component outline with clearance boundary.
-    """
-    return """
-    <svg width="200" height="120" xmlns="http://www.w3.org/2000/svg">
-        <!-- Component (card outline) -->
-        <rect x="70" y="35" width="60" height="50" fill="#e0e0e0" stroke="#333" stroke-width="2"/>
-        <text x="100" y="63" font-size="10" fill="#333" text-anchor="middle">Card</text>
-
-        <!-- Clearance zone (dashed) -->
-        <rect x="60" y="25" width="80" height="70" fill="none" stroke="#1f77b4" stroke-width="2" stroke-dasharray="4,2"/>
-
-        <!-- Dimension arrows -->
-        <!-- Left side -->
-        <line x1="60" y1="60" x2="70" y2="60" stroke="#1f77b4" stroke-width="1" marker-start="url(#arrowleftblue2)" marker-end="url(#arrowrightblue2)"/>
-        <text x="65" y="56" font-size="8" fill="#1f77b4" text-anchor="middle">+2mm</text>
-
-        <!-- Top side -->
-        <line x1="100" y1="25" x2="100" y2="35" stroke="#1f77b4" stroke-width="1" marker-start="url(#arrowupblue)" marker-end="url(#arrowdownblue)"/>
-        <text x="115" y="31" font-size="8" fill="#1f77b4">+5mm</text>
-
-        <!-- Labels -->
-        <text x="100" y="15" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">Clearance Zones</text>
-        <text x="100" y="110" font-size="9" fill="#666" text-anchor="middle">Cards: +2mm sides, +5mm top for finger access</text>
-
-        <!-- Arrow markers -->
-        <defs>
-            <marker id="arrowleftblue2" markerWidth="6" markerHeight="6" refX="0" refY="3" orient="auto">
-                <path d="M 6 0 L 0 3 L 6 6 z" fill="#1f77b4"/>
-            </marker>
-            <marker id="arrowrightblue2" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
-                <path d="M 0 0 L 6 3 L 0 6 z" fill="#1f77b4"/>
-            </marker>
-            <marker id="arrowupblue" markerWidth="6" markerHeight="6" refX="3" refY="0" orient="auto">
-                <path d="M 0 6 L 3 0 L 6 6 z" fill="#1f77b4"/>
-            </marker>
-            <marker id="arrowdownblue" markerWidth="6" markerHeight="6" refX="3" refY="6" orient="auto">
-                <path d="M 0 0 L 3 6 L 6 0 z" fill="#1f77b4"/>
-            </marker>
-        </defs>
-    </svg>
-    """
+    """Top view showing component outline with clearance boundary."""
+    return (
+        '<svg width="200" height="120" xmlns="http://www.w3.org/2000/svg">'
+        '<rect x="70" y="35" width="60" height="50" fill="#e0e0e0" stroke="#333" stroke-width="2"/>'
+        '<text x="100" y="63" font-size="10" fill="#333" text-anchor="middle">Card</text>'
+        '<rect x="60" y="25" width="80" height="70" fill="none" stroke="#1f77b4" stroke-width="2" stroke-dasharray="4,2"/>'
+        '<line x1="60" y1="60" x2="70" y2="60" stroke="#1f77b4" stroke-width="1" marker-start="url(#arrowleftblue2)" marker-end="url(#arrowrightblue2)"/>'
+        '<text x="65" y="56" font-size="8" fill="#1f77b4" text-anchor="middle">+2mm</text>'
+        '<line x1="100" y1="25" x2="100" y2="35" stroke="#1f77b4" stroke-width="1" marker-start="url(#arrowupblue)" marker-end="url(#arrowdownblue)"/>'
+        '<text x="115" y="31" font-size="8" fill="#1f77b4">+5mm</text>'
+        '<text x="100" y="15" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">Clearance Zones</text>'
+        '<text x="100" y="110" font-size="9" fill="#666" text-anchor="middle">Cards: +2mm sides, +5mm top for finger access</text>'
+        '<defs>'
+        '<marker id="arrowleftblue2" markerWidth="6" markerHeight="6" refX="0" refY="3" orient="auto"><path d="M 6 0 L 0 3 L 6 6 z" fill="#1f77b4"/></marker>'
+        '<marker id="arrowrightblue2" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M 0 0 L 6 3 L 0 6 z" fill="#1f77b4"/></marker>'
+        '<marker id="arrowupblue" markerWidth="6" markerHeight="6" refX="3" refY="0" orient="auto"><path d="M 0 6 L 3 0 L 6 6 z" fill="#1f77b4"/></marker>'
+        '<marker id="arrowdownblue" markerWidth="6" markerHeight="6" refX="3" refY="6" orient="auto"><path d="M 0 0 L 3 6 L 6 0 z" fill="#1f77b4"/></marker>'
+        '</defs>'
+        '</svg>'
+    )
 
 
 # Dictionary mapping concept names to diagram functions

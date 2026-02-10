@@ -217,7 +217,7 @@ def render_components_inventory():
         components_to_remove = []
 
         for idx, component in enumerate(st.session_state.components):
-            with st.expander(f"**{component.get('name', component['type'])}** ({component['quantity']} × {component['type']})", expanded=(idx == len(st.session_state.components) - 1)):
+            with st.expander(f"**{component.get('name', 'New Component')}**", expanded=(idx == len(st.session_state.components) - 1)):
 
                 col1, col2 = st.columns([3, 1])
 
