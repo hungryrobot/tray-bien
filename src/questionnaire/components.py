@@ -8,6 +8,15 @@ import streamlit as st
 import json
 from pathlib import Path
 import uuid
+import sys
+
+# Add src to path for imports
+src_path = Path(__file__).parent.parent
+if str(src_path) not in sys.path:
+    sys.path.insert(0, str(src_path))
+
+from ai.pdf_processor import extract_text_from_pdf
+from ai.component_extractor import load_ai_settings, extract_components_with_ai
 
 
 def load_component_standards():
@@ -52,19 +61,153 @@ def render_components_inventory():
     if 'components' not in st.session_state:
         st.session_state.components = []
 
+    # PDF upload state
+    if 'show_pdf_uploader' not in st.session_state:
+        st.session_state.show_pdf_uploader = False
+    if 'pdf_components' not in st.session_state:
+        st.session_state.pdf_components = []
+
     # Load component standards
     standards = load_component_standards()
 
-    # Add component button
-    if st.button("➕ Add Component", type="primary"):
-        # Create a unique ID for this component
-        new_component = {
-            'id': str(uuid.uuid4()),
-            'type': 'Cards',
-            'quantity': 1
-        }
-        st.session_state.components.append(new_component)
-        st.rerun()
+    # Add component buttons
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        if st.button("➕ Add Component", type="primary"):
+            # Create a unique ID for this component
+            new_component = {
+                'id': str(uuid.uuid4()),
+                'type': 'Cards',
+                'quantity': 1
+            }
+            st.session_state.components.append(new_component)
+            st.rerun()
+
+    with col2:
+        if st.button("📄 Upload Rulebook PDF"):
+            st.session_state.show_pdf_uploader = True
+            st.rerun()
+
+    # PDF Upload UI (if button clicked)
+    if st.session_state.get('show_pdf_uploader', False):
+        st.markdown("---")
+        st.markdown("### 📄 Extract Components from Rulebook PDF")
+
+        st.info("💡 Upload a board game rulebook to automatically extract the component list. You'll still need to enter dimensions manually.")
+
+        pdf_file = st.file_uploader("Choose a PDF file", type=['pdf'], key="pdf_upload")
+
+        if pdf_file is not None:
+            # Process PDF
+            with st.spinner("Extracting text from PDF..."):
+                try:
+                    pdf_text = extract_text_from_pdf(pdf_file)
+                except Exception as e:
+                    st.error(f"❌ Could not extract text from PDF: {str(e)}")
+                    st.stop()
+
+            # Check AI configuration
+            try:
+                ai_settings = load_ai_settings()
+            except Exception as e:
+                st.error(f"❌ Could not load AI settings: {str(e)}")
+                st.stop()
+
+            if ai_settings['provider'] == 'none' or not ai_settings['api_key']:
+                st.warning("⚠️ AI provider not configured. Please set up an AI provider in Settings to use PDF upload.")
+                if st.button("Go to Settings"):
+                    st.switch_page("pages/Settings.py")
+                st.stop()
+
+            # Extract components with AI
+            with st.spinner("Analyzing component list..."):
+                try:
+                    components = extract_components_with_ai(
+                        pdf_text,
+                        ai_settings['provider'],
+                        ai_settings['api_key']
+                    )
+                except Exception as e:
+                    st.error(f"❌ AI analysis failed: {str(e)}")
+                    if st.button("Try Again"):
+                        st.rerun()
+                    st.stop()
+
+            # Display extracted components for review
+            if not components:
+                st.info("ℹ️ No components found in the PDF. The component list may be in a different format.")
+            else:
+                st.success(f"✅ Found {len(components)} component types!")
+
+                # Editable table
+                st.markdown("#### Review & Edit Extracted Components")
+                st.caption("Edit names, quantities, or types before adding to inventory. You'll enter dimensions next.")
+
+                # Store in session state for editing
+                if 'pdf_components' not in st.session_state or not st.session_state.pdf_components:
+                    st.session_state.pdf_components = components
+
+                # Display each component with edit controls
+                for idx, comp in enumerate(st.session_state.pdf_components):
+                    col1, col2, col3, col4 = st.columns([3, 2, 1, 1])
+                    with col1:
+                        comp['name'] = st.text_input(
+                            "Name",
+                            value=comp['name'],
+                            key=f"pdf_name_{idx}",
+                            label_visibility="collapsed"
+                        )
+                    with col2:
+                        comp['type'] = st.selectbox(
+                            "Type",
+                            options=['Cards', 'Tokens', 'Dice', 'Meeples/Minis', 'Boards', 'Rulebook', 'Custom'],
+                            index=['Cards', 'Tokens', 'Dice', 'Meeples/Minis', 'Boards', 'Rulebook', 'Custom'].index(comp['type']),
+                            key=f"pdf_type_{idx}",
+                            label_visibility="collapsed"
+                        )
+                    with col3:
+                        comp['quantity'] = st.number_input(
+                            "Qty",
+                            value=comp['quantity'],
+                            min_value=1,
+                            key=f"pdf_qty_{idx}",
+                            label_visibility="collapsed"
+                        )
+                    with col4:
+                        if st.button("🗑️", key=f"pdf_remove_{idx}"):
+                            st.session_state.pdf_components.pop(idx)
+                            st.rerun()
+
+                # Add all button
+                col1, col2 = st.columns([1, 4])
+                with col1:
+                    if st.button("➕ Add All to Inventory", type="primary"):
+                        # Create components with default dimensions
+                        num_added = len(st.session_state.pdf_components)
+                        for comp in st.session_state.pdf_components:
+                            new_component = {
+                                'id': str(uuid.uuid4()),
+                                'type': comp['type'],
+                                'quantity': comp['quantity'],
+                                'name': comp['name'],
+                                'length': 50.0,  # Default - user will edit
+                                'width': 50.0,   # Default - user will edit
+                                'height': 10.0,  # Default - user will edit
+                                '_last_type': comp['type']
+                            }
+                            st.session_state.components.append(new_component)
+
+                        # Clear PDF upload state
+                        st.session_state.show_pdf_uploader = False
+                        st.session_state.pdf_components = []
+                        st.success(f"✅ Added {num_added} components! Now enter dimensions for each.")
+                        st.rerun()
+
+                with col2:
+                    if st.button("Cancel"):
+                        st.session_state.show_pdf_uploader = False
+                        st.session_state.pdf_components = []
+                        st.rerun()
 
     # Display existing components
     if st.session_state.components:
