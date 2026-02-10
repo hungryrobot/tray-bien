@@ -30,8 +30,7 @@ def render_box_setup():
             'game_name': None,
             'length': 296,
             'width': 296,
-            'height': 71,
-            'lid_clearance': 3
+            'height': 71
         }
 
     config = st.session_state.box_config
@@ -123,28 +122,11 @@ def render_box_setup():
         st.caption("💡 **Tip:** Measure the INNER dimensions of your box, not the outer. Subtract ~2mm per side from outer dimensions for cardboard thickness.")
 
     # Lid clearance slider
-    st.markdown("---")
-    st.markdown("#### 🎩 Lid Clearance")
-    st.markdown("""
-How much vertical space does the box lid need when closed?
-
-**Typical values:** 3-5mm for most games | **Tight fit:** 2mm | **Deep lid:** 6-10mm
-""")
-
-    config['lid_clearance'] = st.slider(
-        "Lid clearance (mm):",
-        min_value=0,
-        max_value=15,
-        value=config['lid_clearance'],
-        step=1,
-        help="Space between top of insert and box lid. Accounts for lid thickness and cardboard compression. Typical: 3-5mm"
-    )
-
     # Calculate available volume
     st.markdown("---")
     st.markdown("#### 📊 Available Interior Volume")
 
-    available_height = config['height'] - config['lid_clearance']
+    available_height = config['height']
     available_volume_cm3 = (config['length'] * config['width'] * available_height) / 1000
 
     col1, col2, col3, col4 = st.columns(4)
@@ -153,7 +135,7 @@ How much vertical space does the box lid need when closed?
     with col2:
         st.metric("Width", f"{config['width']} mm")
     with col3:
-        st.metric("Available Height", f"{available_height} mm")
+        st.metric("Height", f"{available_height} mm")
     with col4:
         st.metric("Volume", f"{available_volume_cm3:.1f} cm³")
 
@@ -189,7 +171,7 @@ How much vertical space does the box lid need when closed?
 
     # Validation warnings
     if available_height < 30:
-        st.warning("⚠️ Very shallow box - limited space for components. Consider reducing lid clearance if possible.")
+        st.warning("⚠️ Very shallow box - limited space for components.")
 
     if config['length'] * config['width'] > 400 * 400:
         st.info("💡 Large box footprint - consider multi-tray stacking to fill vertical space efficiently.")
