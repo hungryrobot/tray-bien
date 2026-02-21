@@ -7,18 +7,31 @@ interface Props {
 }
 
 export function QuickDefaults({ onComplete }: Props) {
-  const { setQuickDefaults, applyQuickDefaults } = useDesignStore();
+  const { setQuickDefaults, applyQuickDefaults, selectedComponentGroups } = useDesignStore();
 
-  const [defaults, setDefaults] = useState<QuickDefaultsType>({
-    cardboardQuality: 'standard',
-    cardsSleeved: 'unsleeved',
-    hasDice: false,
-    diceSizeMm: 16,
-    hasCubes: false,
-    cubeSizeMm: 8,
-    hasMinis: false,
-    hasExpansionSpace: false,
-  });
+  // Auto-detect component types from extraction results
+  const detectDefaults = (): QuickDefaultsType => {
+    const allComponents = selectedComponentGroups.flatMap(g => g.components);
+
+    const hasDice = allComponents.some(c => c.type === 'Dice');
+    const hasCubes = allComponents.some(c => c.type === 'Tokens' &&
+      (c.name.toLowerCase().includes('cube') || c.name.toLowerCase().includes('resource')));
+    const hasMinis = allComponents.some(c => c.type === 'Meeples/Minis');
+    const hasCards = allComponents.some(c => c.type === 'Cards');
+
+    return {
+      cardboardQuality: 'standard',
+      cardsSleeved: hasCards ? 'unsleeved' : 'unsleeved',
+      hasDice,
+      diceSizeMm: 16,
+      hasCubes,
+      cubeSizeMm: 8,
+      hasMinis,
+      hasExpansionSpace: false,
+    };
+  };
+
+  const [defaults, setDefaults] = useState<QuickDefaultsType>(detectDefaults());
 
   const handleSubmit = () => {
     setQuickDefaults(defaults);

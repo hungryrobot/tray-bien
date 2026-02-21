@@ -23,7 +23,17 @@ function ComponentEditorItem({ component }: ComponentEditorItemProps) {
   const [localState, setLocalState] = useState(component);
 
   const handleSave = () => {
-    updateComponent(component.id, localState);
+    // Recalculate needsDimensions based on current dimensions
+    const needsDimensions = !(
+      localState.length !== null && localState.length > 0 &&
+      localState.width !== null && localState.width > 0 &&
+      localState.height !== null && localState.height > 0
+    );
+
+    updateComponent(component.id, {
+      ...localState,
+      needsDimensions,
+    });
     setIsExpanded(false);
   };
 

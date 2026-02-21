@@ -4,7 +4,6 @@ import { useDesignStore } from '../../../store/designStore';
 export function ComponentReview() {
   const { selectedComponentGroups, importSelectedComponents } = useDesignStore();
   const [checkedIds, setCheckedIds] = useState<Set<string>>(new Set());
-  const [selectAll, setSelectAll] = useState(true);
 
   // Initialize all as checked
   useState(() => {
@@ -25,18 +24,16 @@ export function ComponentReview() {
     setCheckedIds(newChecked);
   };
 
-  const toggleSelectAll = () => {
-    if (selectAll) {
-      setCheckedIds(new Set());
-      setSelectAll(false);
-    } else {
-      const allIds = new Set<string>();
-      selectedComponentGroups.forEach((group) => {
-        group.components.forEach((comp) => allIds.add(comp.id));
-      });
-      setCheckedIds(allIds);
-      setSelectAll(true);
-    }
+  const handleSelectAll = () => {
+    const allIds = new Set<string>();
+    selectedComponentGroups.forEach((group) => {
+      group.components.forEach((comp) => allIds.add(comp.id));
+    });
+    setCheckedIds(allIds);
+  };
+
+  const handleDeselectAll = () => {
+    setCheckedIds(new Set());
   };
 
   const handleImport = () => {
@@ -60,12 +57,20 @@ export function ComponentReview() {
           </p>
         </div>
 
-        <button
-          onClick={toggleSelectAll}
-          className="text-sm text-blue-600 hover:text-blue-800 underline"
-        >
-          {selectAll ? 'Deselect All' : 'Select All'}
-        </button>
+        <div className="flex gap-3">
+          <button
+            onClick={handleSelectAll}
+            className="text-sm text-blue-600 hover:text-blue-800 underline"
+          >
+            Select All
+          </button>
+          <button
+            onClick={handleDeselectAll}
+            className="text-sm text-blue-600 hover:text-blue-800 underline"
+          >
+            Deselect All
+          </button>
+        </div>
       </div>
 
       <div className="space-y-4">
