@@ -74,3 +74,15 @@ IMPLEMENTATION_CHECKLIST.md
 MATERIAL_FIRST_IMPLEMENTATION.md
 UI_IMPROVEMENTS_SUMMARY.md
 VERIFICATION_CHECKLIST.md
+
+# v3 Backend (FastAPI)
+backend/venv/
+backend/.env
+backend/__pycache__/
+backend/**/*.pyc
+
+# v3 Frontend (React)
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/build/
