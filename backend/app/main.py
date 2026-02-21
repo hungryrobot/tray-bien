@@ -84,7 +84,10 @@ async def extract_components(
 
         # Extract components with AI
         print(f"🤖 Calling {provider} for component extraction")
-        result = extract_components_with_ai(pdf_text, provider, api_key)
+        # Convert empty string to None
+        final_api_key = api_key if api_key and api_key.strip() else None
+        print(f"🔑 API key provided: {bool(final_api_key)}")
+        result = extract_components_with_ai(pdf_text, provider, final_api_key)
 
         # Return success response
         return ExtractionResponse(

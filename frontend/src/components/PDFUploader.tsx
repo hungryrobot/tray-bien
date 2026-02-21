@@ -1,23 +1,24 @@
 /**
- * PDF upload component with provider selection and API key input.
+ * PDF upload component with provider selection.
  */
 
 import { useState } from 'react';
 
 interface Props {
-  onUpload: (file: File, provider: string, apiKey?: string) => void;
+  onUpload: (file: File, provider: string) => void;
+  onOpenSettings: () => void;
   loading: boolean;
+  hasApiKey: (provider: string) => boolean;
 }
 
-export function PDFUploader({ onUpload, loading }: Props) {
+export function PDFUploader({ onUpload, onOpenSettings, loading, hasApiKey }: Props) {
   const [file, setFile] = useState<File | null>(null);
   const [provider, setProvider] = useState('gemini');
-  const [apiKey, setApiKey] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (file) {
-      onUpload(file, provider, apiKey || undefined);
+      onUpload(file, provider);
     }
   };
 
@@ -25,6 +26,9 @@ export function PDFUploader({ onUpload, loading }: Props) {
     const selectedFile = e.target.files?.[0];
     setFile(selectedFile || null);
   };
+
+  const providerHasKey = hasApiKey(provider);
+  const canSubmit = file && (provider === 'ollama' || providerHasKey);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -69,32 +73,37 @@ export function PDFUploader({ onUpload, loading }: Props) {
           <option value="openai">OpenAI</option>
           <option value="ollama">Ollama (Local)</option>
         </select>
-      </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          API Key <span className="text-gray-500 font-normal">(optional)</span>
-        </label>
-        <input
-          type="password"
-          value={apiKey}
-          onChange={(e) => setApiKey(e.target.value)}
-          placeholder="Leave blank to use stored settings"
-          className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm
-            focus:outline-none focus:ring-blue-500 focus:border-blue-500
-            disabled:opacity-50 disabled:bg-gray-100"
-          disabled={loading}
-        />
-        <p className="mt-1 text-xs text-gray-500">
-          {provider === 'ollama'
-            ? 'No API key needed for local Ollama'
-            : 'Enter your API key or configure in backend settings'}
-        </p>
+        {/* API Key Status */}
+        <div className="mt-2">
+          {provider === 'ollama' ? (
+            <p className="text-sm text-gray-600">
+              ℹ️ No API key required for local Ollama
+            </p>
+          ) : providerHasKey ? (
+            <p className="text-sm text-green-600">
+              ✓ API key configured for {provider}
+            </p>
+          ) : (
+            <div className="flex items-center gap-2">
+              <p className="text-sm text-orange-600">
+                ⚠️ No API key configured
+              </p>
+              <button
+                type="button"
+                onClick={onOpenSettings}
+                className="text-sm text-blue-600 hover:text-blue-800 underline"
+              >
+                Configure in Settings
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       <button
         type="submit"
-        disabled={!file || loading}
+        disabled={!canSubmit || loading}
         className="w-full px-4 py-2 bg-blue-600 text-white font-medium rounded-md
           hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
           disabled:opacity-50 disabled:cursor-not-allowed
@@ -128,6 +137,12 @@ export function PDFUploader({ onUpload, loading }: Props) {
           'Extract Components'
         )}
       </button>
+
+      {!canSubmit && file && provider !== 'ollama' && !providerHasKey && (
+        <p className="text-sm text-orange-600 text-center">
+          Please configure your {provider} API key in Settings first
+        </p>
+      )}
     </form>
   );
 }

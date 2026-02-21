@@ -5,6 +5,7 @@
 import { useState } from 'react';
 import { PDFUploader } from './components/PDFUploader';
 import { ComponentDisplay } from './components/ComponentDisplay';
+import { Settings } from './components/Settings';
 import { extractComponents } from './api/client';
 import type { ExtractionResult } from './types';
 
@@ -12,14 +13,38 @@ function App() {
   const [result, setResult] = useState<ExtractionResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showSettings, setShowSettings] = useState(false);
 
-  const handleUpload = async (file: File, provider: string, apiKey?: string) => {
+  const getApiKey = (provider: string): string | undefined => {
+    try {
+      const saved = localStorage.getItem('tray-bien-api-keys');
+      if (saved) {
+        const keys = JSON.parse(saved);
+        return keys[provider];
+      }
+    } catch (e) {
+      console.error('Failed to load API key:', e);
+    }
+    return undefined;
+  };
+
+  const hasApiKey = (provider: string): boolean => {
+    const key = getApiKey(provider);
+    return !!key && key.trim().length > 0;
+  };
+
+  const handleUpload = async (file: File, provider: string) => {
     setLoading(true);
     setError(null);
     setResult(null);
 
     try {
       console.log(`Uploading ${file.name} to ${provider}...`);
+
+      // Get API key from localStorage
+      const apiKey = getApiKey(provider);
+      console.log(`API key loaded from localStorage: ${!!apiKey}`);
+
       const data = await extractComponents(file, provider, apiKey);
       console.log('Extraction successful:', data);
       setResult(data);
@@ -37,9 +62,19 @@ function App() {
       <div className="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold text-gray-900 mb-2">
-            🎲 Tray Bien <span className="text-blue-600">v3</span>
-          </h1>
+          <div className="flex items-center justify-center gap-4 mb-2">
+            <h1 className="text-5xl font-bold text-gray-900">
+              🎲 Tray Bien <span className="text-blue-600">v3</span>
+            </h1>
+            <button
+              onClick={() => setShowSettings(true)}
+              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300
+                transition-colors duration-200 text-sm font-medium"
+              title="Settings"
+            >
+              ⚙️ Settings
+            </button>
+          </div>
           <p className="text-xl text-gray-600 italic">
             AI-Powered Component Extraction
           </p>
@@ -53,7 +88,12 @@ function App() {
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">
             Extract Components from PDF
           </h2>
-          <PDFUploader onUpload={handleUpload} loading={loading} />
+          <PDFUploader
+            onUpload={handleUpload}
+            onOpenSettings={() => setShowSettings(true)}
+            loading={loading}
+            hasApiKey={hasApiKey}
+          />
         </div>
 
         {/* Error Display */}
@@ -98,6 +138,9 @@ function App() {
           </p>
         </div>
       </div>
+
+      {/* Settings Modal */}
+      {showSettings && <Settings onClose={() => setShowSettings(false)} />}
     </div>
   );
 }
