@@ -58,6 +58,9 @@ interface DesignState {
   moveComponentBetweenTrays: (componentId: string, fromTrayId: string, toTrayId: string) => void;
   reorderTrays: (from_index: number, to_index: number) => void;
   setTrayStructure: (structure: TrayStructure) => void;
+
+  // Dev utilities
+  loadTestData: () => void;
 }
 
 const defaultBoxConfig: BoxConfig = {
@@ -370,6 +373,24 @@ export const useDesignStore = create<DesignState>()(
 
       setTrayStructure: (structure) => {
         set({ trayStructure: structure });
+      },
+
+      // Dev utilities
+      loadTestData: () => {
+        // Import test data dynamically to avoid bundling in production
+        import('../utils/testData').then(({ QWIXX_BOX_CONFIG, QWIXX_COMPONENTS, QWIXX_QUICK_DEFAULTS }) => {
+          set({
+            designName: 'Qwixx (Test Data)',
+            boxConfig: QWIXX_BOX_CONFIG,
+            components: QWIXX_COMPONENTS,
+            quickDefaults: QWIXX_QUICK_DEFAULTS,
+            quickDefaultsDone: true,
+            currentStep: 1,
+            pdfExtractionResult: null,
+            selectedComponentGroups: [],
+            trayStructure: null,
+          });
+        });
       },
     }),
     {

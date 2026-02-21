@@ -10,11 +10,17 @@ import { useDesignStore } from './store/designStore';
 
 function App() {
   const [showSettings, setShowSettings] = useState(false);
-  const { resetWizard, designName } = useDesignStore();
+  const { resetWizard, designName, loadTestData } = useDesignStore();
 
   const handleNewDesign = () => {
     if (confirm('Start a new design? This will clear your current work.')) {
       resetWizard();
+    }
+  };
+
+  const handleLoadTestData = () => {
+    if (confirm('Load Qwixx test data? This will replace your current work.')) {
+      loadTestData();
     }
   };
 
@@ -43,6 +49,19 @@ function App() {
               >
                 ➕ New Design
               </button>
+
+              {/* Dev-only test data loader */}
+              {import.meta.env.DEV && (
+                <button
+                  onClick={handleLoadTestData}
+                  className="px-4 py-2 border-2 border-gray-300 text-gray-600 rounded-md hover:bg-gray-50
+                    transition-colors duration-200 text-sm font-medium"
+                  title="Load pre-filled Qwixx test data (dev only)"
+                >
+                  🧪 Dev: Load Test Data
+                </button>
+              )}
+
               <button
                 onClick={() => setShowSettings(true)}
                 className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300
