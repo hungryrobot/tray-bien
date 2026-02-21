@@ -131,3 +131,43 @@ export interface ApiResponse<T> {
   data?: T;
   error?: string;
 }
+
+// Tray structure types (Step 2)
+export type TrayType = 'player' | 'shared' | 'setup';
+
+export interface Tray {
+  tray_id: string;                    // Unique ID (format: 'tray_1', 'tray_2')
+  name: string;                       // User-editable name
+  tray_type: TrayType;                // Type determines visual styling
+  components: Component[];            // Components assigned to this tray
+
+  // Player tray specific
+  player_sets?: number | null;        // If template tray, how many copies (null = unique faction)
+  player_names?: string[] | null;     // Names of players for template copies
+
+  // Lid configuration
+  needs_lid: boolean;                 // Whether this tray should have a lid
+  lid_reason?: string;                // Explanation for lid recommendation
+
+  // Hierarchy (for nested trays - future)
+  parent_tray_id?: string | null;
+
+  // User notes
+  notes: string;
+
+  // Calculated properties
+  estimated_height_mm?: number;       // Auto-calculated from components
+}
+
+export interface BoardLayer {
+  components: Component[];            // Boards, rulebooks, reference sheets
+  estimated_thickness_mm: number;     // Calculated total thickness
+}
+
+export interface TrayStructure {
+  trays: Tray[];                      // All defined trays
+  board_layer: BoardLayer;            // Non-printed top layer
+  stack_order: string[];              // Array of tray_ids from bottom to top
+  box_height_mm: number;              // Reference from boxConfig
+  unassigned?: Component[];           // Components removed from trays
+}

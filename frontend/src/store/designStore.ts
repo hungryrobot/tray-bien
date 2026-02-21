@@ -6,9 +6,13 @@ import type {
   BoxConfig,
   QuickDefaults,
   ExtractionResult,
+  TrayStructure,
+  Tray,
 } from '../types';
 import { applyQuickDefaultsToComponent } from '../utils/quickDefaultsLogic';
 import { calculateComponentVolume } from '../utils/componentCalculations';
+import { generateTrayStructure } from '../utils/trayAutoGeneration';
+import { estimateTrayHeight } from '../utils/trayEstimation';
 
 interface DesignState {
   // Wizard state
@@ -28,6 +32,9 @@ interface DesignState {
   quickDefaults: QuickDefaults | null;
   quickDefaultsDone: boolean;
 
+  // Tray structure (Step 2)
+  trayStructure: TrayStructure | null;
+
   // Actions
   setCurrentStep: (step: number) => void;
   setDesignName: (name: string) => void;
@@ -42,6 +49,15 @@ interface DesignState {
   applyQuickDefaults: () => void;
   importSelectedComponents: (componentIds: Set<string>) => void;
   resetWizard: () => void;
+
+  // Tray structure actions
+  initializeTrayStructure: () => void;
+  addTray: (tray: Tray) => void;
+  updateTray: (tray_id: string, updates: Partial<Tray>) => void;
+  removeTray: (tray_id: string) => void;
+  moveComponentBetweenTrays: (componentId: string, fromTrayId: string, toTrayId: string) => void;
+  reorderTrays: (from_index: number, to_index: number) => void;
+  setTrayStructure: (structure: TrayStructure) => void;
 }
 
 const defaultBoxConfig: BoxConfig = {
@@ -67,6 +83,7 @@ export const useDesignStore = create<DesignState>()(
       selectedComponentGroups: [],
       quickDefaults: null,
       quickDefaultsDone: false,
+      trayStructure: null,
 
       // Actions
       setCurrentStep: (step) => set({ currentStep: step }),
@@ -192,7 +209,168 @@ export const useDesignStore = create<DesignState>()(
           selectedComponentGroups: [],
           quickDefaults: null,
           quickDefaultsDone: false,
+          trayStructure: null,
         }),
+
+      // Tray structure actions
+      initializeTrayStructure: () => {
+        const { selectedComponentGroups, components, boxConfig } = get();
+
+        const structure = generateTrayStructure(
+          selectedComponentGroups,
+          components,
+          boxConfig
+        );
+
+        set({ trayStructure: structure });
+      },
+
+      addTray: (tray) => {
+        set((state) => {
+          if (!state.trayStructure) return state;
+
+          return {
+            trayStructure: {
+              ...state.trayStructure,
+              trays: [...state.trayStructure.trays, tray],
+              stack_order: [...state.trayStructure.stack_order, tray.tray_id],
+            },
+          };
+        });
+      },
+
+      updateTray: (tray_id, updates) => {
+        set((state) => {
+          if (!state.trayStructure) return state;
+
+          return {
+            trayStructure: {
+              ...state.trayStructure,
+              trays: state.trayStructure.trays.map((t) =>
+                t.tray_id === tray_id
+                  ? {
+                      ...t,
+                      ...updates,
+                      estimated_height_mm: updates.components
+                        ? estimateTrayHeight(updates.components)
+                        : t.estimated_height_mm,
+                    }
+                  : t
+              ),
+            },
+          };
+        });
+      },
+
+      removeTray: (tray_id) => {
+        set((state) => {
+          if (!state.trayStructure) return state;
+
+          const tray = state.trayStructure.trays.find((t) => t.tray_id === tray_id);
+          const unassigned = [...(state.trayStructure.unassigned || [])];
+
+          if (tray && tray.components.length) {
+            unassigned.push(...tray.components);
+          }
+
+          return {
+            trayStructure: {
+              ...state.trayStructure,
+              trays: state.trayStructure.trays.filter((t) => t.tray_id !== tray_id),
+              stack_order: state.trayStructure.stack_order.filter((id) => id !== tray_id),
+              unassigned,
+            },
+          };
+        });
+      },
+
+      moveComponentBetweenTrays: (componentId, fromTrayId, toTrayId) => {
+        set((state) => {
+          if (!state.trayStructure) return state;
+
+          let component: Component | null = null;
+          const trays = state.trayStructure.trays.map((tray) => {
+            if (fromTrayId === 'unassigned') {
+              // From unassigned to tray
+              if (tray.tray_id === toTrayId || tray.name === toTrayId) {
+                const unassignedComp = state.trayStructure!.unassigned?.find((c) => c.id === componentId);
+                if (unassignedComp) {
+                  return {
+                    ...tray,
+                    components: [...tray.components, unassignedComp],
+                    estimated_height_mm: estimateTrayHeight([...tray.components, unassignedComp]),
+                  };
+                }
+              }
+              return tray;
+            }
+
+            if (tray.tray_id === fromTrayId) {
+              component = tray.components.find((c) => c.id === componentId) || null;
+              const newComponents = tray.components.filter((c) => c.id !== componentId);
+              return {
+                ...tray,
+                components: newComponents,
+                estimated_height_mm: estimateTrayHeight(newComponents),
+              };
+            }
+
+            if (toTrayId !== 'Unassigned' && (tray.tray_id === toTrayId || tray.name === toTrayId) && component) {
+              const newComponents = [...tray.components, component];
+              return {
+                ...tray,
+                components: newComponents,
+                estimated_height_mm: estimateTrayHeight(newComponents),
+              };
+            }
+
+            return tray;
+          });
+
+          let unassigned = state.trayStructure.unassigned || [];
+
+          if (fromTrayId === 'unassigned') {
+            unassigned = unassigned.filter((c) => c.id !== componentId);
+          } else if (toTrayId === 'Unassigned' && component) {
+            unassigned = [...unassigned, component];
+          }
+
+          return {
+            trayStructure: {
+              ...state.trayStructure,
+              trays,
+              unassigned,
+            },
+          };
+        });
+      },
+
+      reorderTrays: (fromIndex, toIndex) => {
+        set((state) => {
+          if (!state.trayStructure) return state;
+
+          const trays = [...state.trayStructure.trays];
+          const stackOrder = [...state.trayStructure.stack_order];
+
+          // Swap in trays array
+          [trays[fromIndex], trays[toIndex]] = [trays[toIndex], trays[fromIndex]];
+
+          // Swap in stack_order array
+          [stackOrder[fromIndex], stackOrder[toIndex]] = [stackOrder[toIndex], stackOrder[fromIndex]];
+
+          return {
+            trayStructure: {
+              ...state.trayStructure,
+              trays,
+              stack_order: stackOrder,
+            },
+          };
+        });
+      },
+
+      setTrayStructure: (structure) => {
+        set({ trayStructure: structure });
+      },
     }),
     {
       name: 'tray-bien-design',
@@ -205,6 +383,7 @@ export const useDesignStore = create<DesignState>()(
         components: state.components,
         quickDefaults: state.quickDefaults,
         quickDefaultsDone: state.quickDefaultsDone,
+        trayStructure: state.trayStructure,
       }),
     }
   )
