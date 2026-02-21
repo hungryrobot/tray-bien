@@ -171,3 +171,26 @@ export interface TrayStructure {
   box_height_mm: number;              // Reference from boxConfig
   unassigned?: Component[];           // Components removed from trays
 }
+
+// Layout types (Step 3)
+export interface Compartment {
+  id: string;
+  componentId: string;       // Links to Component.id
+  name: string;              // Display name (from component)
+  x: number;                 // mm from tray left inner edge
+  y: number;                 // mm from tray front inner edge
+  width: number;             // mm — component width + clearance
+  length: number;            // mm — component length + clearance
+  depth: number;             // mm — stack height + finger room
+  minWidth: number;          // mm — cannot resize smaller
+  minLength: number;         // mm — cannot resize smaller
+  color: string;             // Fill color for the rectangle
+}
+
+export interface TrayLayout {
+  trayId: string;
+  compartments: Compartment[];
+  outerWallThickness: number;   // mm — from nozzle settings (default: 1.6mm)
+  dividerThickness: number;     // mm — inner walls (default: 1.2mm)
+  floorThickness: number;       // mm (default: 0.8mm)
+}
