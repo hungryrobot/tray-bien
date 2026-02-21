@@ -78,7 +78,17 @@ function getDimensionPrefill(
   const isMiniName = isMini(name);
   const isMeepleName = isMeeple(name);
 
-  // Large miniatures — dimensions too varied to predict
+  // Standard meeples (check FIRST before large minis)
+  if (isMeepleName || (isMiniType && !hasMinis)) {
+    return {
+      length: 16,
+      width: 16,
+      height: 10,
+      source: 'Standard meeple (16×16×10mm)',
+    };
+  }
+
+  // Large miniatures — dimensions too varied to predict (check AFTER meeples)
   if (hasMinis && (isMiniType || isMiniName)) {
     return {
       length: null,
@@ -87,16 +97,6 @@ function getDimensionPrefill(
       source: 'Miniature — requires manual measurement',
       clearanceMm: 2.0,
       clearanceNote: 'Miniature — wider clearance applied (+2mm)',
-    };
-  }
-
-  // Standard meeples
-  if (isMeepleName || (isMiniType && !hasMinis)) {
-    return {
-      length: 16,
-      width: 16,
-      height: 10,
-      source: 'Standard meeple (16×16×10mm)',
     };
   }
 
@@ -163,12 +163,19 @@ export function applyQuickDefaultsToComponent(
     };
   }
 
+  // Special handling for Boards and Rulebooks (non-printed layer)
+  const isBoardOrRulebook = component.type === 'Boards' || component.type === 'Rulebook';
+
   // Apply prefill values
   const updated: Component = {
     ...component,
     prefillSource: prefill.source,
-    prefillComplete: prefill.length !== null && prefill.width !== null && prefill.height !== null,
-    needsDimensions: !(prefill.length && prefill.width && prefill.height),
+    prefillComplete: isBoardOrRulebook
+      ? true  // Boards/Rulebooks are complete with just L×W from box
+      : prefill.length !== null && prefill.width !== null && prefill.height !== null,
+    needsDimensions: isBoardOrRulebook
+      ? false  // No dimension warning for boards/rulebooks
+      : !(prefill.length && prefill.width && prefill.height),
   };
 
   // Apply dimension values if available

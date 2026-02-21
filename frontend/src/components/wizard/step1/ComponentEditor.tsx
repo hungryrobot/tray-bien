@@ -18,7 +18,7 @@ interface ComponentEditorItemProps {
 }
 
 function ComponentEditorItem({ component }: ComponentEditorItemProps) {
-  const { updateComponent, removeComponent } = useDesignStore();
+  const { updateComponent, removeComponent, boxConfig } = useDesignStore();
   const [isExpanded, setIsExpanded] = useState(component.needsDimensions);
   const [localState, setLocalState] = useState(component);
 
@@ -206,46 +206,78 @@ function ComponentEditorItem({ component }: ComponentEditorItemProps) {
             </>
           )}
 
-          {/* Generic dimensions (for all types) */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Dimensions (mm)
-            </label>
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <label className="block text-xs text-gray-600 mb-1">Length</label>
-                <input
-                  type="number"
-                  value={localState.length || ''}
-                  onChange={(e) => update({ length: Number(e.target.value) || null })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="L"
-                />
+          {/* Special UI for Boards/Rulebooks (non-printed layer) */}
+          {(localState.type === 'Boards' || localState.type === 'Rulebook') ? (
+            <div className="p-4 bg-amber-50 border-2 border-amber-300 rounded-lg">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-xl">📦</span>
+                <div>
+                  <p className="text-sm font-semibold text-amber-900">Non-printed Layer</p>
+                  <p className="text-xs text-amber-700">Sits on top of insert stack — no tray needed</p>
+                </div>
               </div>
 
-              <div>
-                <label className="block text-xs text-gray-600 mb-1">Width</label>
-                <input
-                  type="number"
-                  value={localState.width || ''}
-                  onChange={(e) => update({ width: Number(e.target.value) || null })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="W"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs text-gray-600 mb-1">Height</label>
-                <input
-                  type="number"
-                  value={localState.height || ''}
-                  onChange={(e) => update({ height: Number(e.target.value) || null })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="H"
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs text-gray-600 mb-1">Footprint (from box)</label>
+                  <p className="text-sm font-medium text-gray-700 bg-white px-3 py-2 rounded border border-amber-200">
+                    {boxConfig.length}×{boxConfig.width}mm
+                  </p>
+                </div>
+                <div>
+                  <label className="block text-xs text-gray-600 mb-1">Thickness (mm)</label>
+                  <input
+                    type="number"
+                    value={localState.height || ''}
+                    onChange={(e) => update({ height: Number(e.target.value) || null })}
+                    className="w-full px-3 py-2 border border-amber-300 rounded-md focus:ring-amber-500 focus:border-amber-500"
+                    placeholder="e.g., 3"
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            /* Generic dimensions (for all other types) */
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Dimensions (mm)
+              </label>
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-xs text-gray-600 mb-1">Length</label>
+                  <input
+                    type="number"
+                    value={localState.length || ''}
+                    onChange={(e) => update({ length: Number(e.target.value) || null })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="L"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs text-gray-600 mb-1">Width</label>
+                  <input
+                    type="number"
+                    value={localState.width || ''}
+                    onChange={(e) => update({ width: Number(e.target.value) || null })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="W"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs text-gray-600 mb-1">Height</label>
+                  <input
+                    type="number"
+                    value={localState.height || ''}
+                    onChange={(e) => update({ height: Number(e.target.value) || null })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="H"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Prefill info */}
           {localState.prefillSource && (

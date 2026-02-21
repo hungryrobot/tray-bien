@@ -92,46 +92,65 @@ export function ComponentReview() {
 
             {/* Components List */}
             <div className="divide-y divide-gray-200">
-              {group.components.map((comp) => (
-                <label
-                  key={comp.id}
-                  className="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    checked={checkedIds.has(comp.id)}
-                    onChange={() => toggleCheck(comp.id)}
-                    className="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                  />
+              {group.components.map((comp) => {
+                const isBoardOrRulebook = comp.type === 'Boards' || comp.type === 'Rulebook';
 
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium text-gray-900">{comp.name}</span>
-                      <span className="text-xs text-gray-500">({comp.type})</span>
-                    </div>
+                return (
+                  <label
+                    key={comp.id}
+                    className={`flex items-start gap-3 px-4 py-3 cursor-pointer ${
+                      isBoardOrRulebook
+                        ? 'bg-amber-50 hover:bg-amber-100'
+                        : 'hover:bg-gray-50'
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={checkedIds.has(comp.id)}
+                      onChange={() => toggleCheck(comp.id)}
+                      className="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    />
 
-                    <div className="mt-1 flex items-center gap-4 text-sm text-gray-600">
-                      <span>Qty: {comp.quantity}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium text-gray-900">{comp.name}</span>
+                        <span className="text-xs text-gray-500">({comp.type})</span>
+                        {isBoardOrRulebook && (
+                          <span className="text-xs bg-amber-200 text-amber-800 px-2 py-0.5 rounded font-medium">
+                            📦 Non-printed layer
+                          </span>
+                        )}
+                      </div>
 
-                      {comp.prefillComplete ? (
-                        <span className="text-green-600">
-                          ✓ {comp.length}×{comp.width}×{comp.height}mm
-                        </span>
-                      ) : (
-                        <span className="text-orange-600">⚠️ Needs dimensions</span>
+                      <div className="mt-1 flex items-center gap-4 text-sm text-gray-600">
+                        <span>Qty: {comp.quantity}</span>
+
+                        {comp.prefillComplete ? (
+                          <span className="text-green-600">
+                            {isBoardOrRulebook
+                              ? `✓ ${comp.length}×${comp.width}mm (thickness: ${comp.height}mm)`
+                              : `✓ ${comp.length}×${comp.width}×${comp.height}mm`}
+                          </span>
+                        ) : (
+                          !isBoardOrRulebook && (
+                            <span className="text-orange-600">⚠️ Needs dimensions</span>
+                          )
+                        )}
+                      </div>
+
+                      {comp.prefillSource && (
+                        <p className={`mt-1 text-xs ${isBoardOrRulebook ? 'text-amber-700' : 'text-blue-600'}`}>
+                          {comp.prefillSource}
+                        </p>
+                      )}
+
+                      {comp.details && (
+                        <p className="mt-1 text-xs text-gray-500">Note: {comp.details}</p>
                       )}
                     </div>
-
-                    {comp.prefillSource && (
-                      <p className="mt-1 text-xs text-blue-600">{comp.prefillSource}</p>
-                    )}
-
-                    {comp.details && (
-                      <p className="mt-1 text-xs text-gray-500">Note: {comp.details}</p>
-                    )}
-                  </div>
-                </label>
-              ))}
+                  </label>
+                );
+              })}
             </div>
           </div>
         ))}
