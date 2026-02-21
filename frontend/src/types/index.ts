@@ -189,6 +189,14 @@ export interface Compartment {
 
 export interface TrayLayout {
   trayId: string;
+
+  // Box-level positioning (for Box View)
+  boxX: number;        // mm from box left edge
+  boxY: number;        // mm from box front edge
+  boxWidth: number;    // mm — tray footprint width within box
+  boxLength: number;   // mm — tray footprint length within box
+
+  // Tray internals (for Tray View)
   compartments: Compartment[];
   outerWallThickness: number;   // mm — from nozzle settings (default: 1.6mm)
   dividerThickness: number;     // mm — inner walls (default: 1.2mm)

@@ -42,6 +42,8 @@ interface DesignState {
   layouts: TrayLayout[];
   selectedTrayId: string | null;
   selectedCompartmentId: string | null;
+  layoutViewMode: 'box' | 'tray';        // Two-level view mode
+  editingTrayId: string | null;          // Which tray is open in Tray View
 
   // Actions
   setCurrentStep: (step: number) => void;
@@ -70,9 +72,13 @@ interface DesignState {
   // Layout actions (Step 3)
   initializeLayouts: () => void;
   updateCompartment: (trayId: string, compartmentId: string, updates: Partial<Compartment>) => void;
+  updateTrayLayout: (trayId: string, updates: Partial<TrayLayout>) => void;
   setSelectedTrayId: (trayId: string | null) => void;
   setSelectedCompartmentId: (id: string | null) => void;
   autoPackTray: (trayId: string) => void;
+  setLayoutViewMode: (mode: 'box' | 'tray') => void;
+  enterTrayView: (trayId: string) => void;
+  exitTrayView: () => void;
 
   // Dev utilities
   loadTestData: () => void;
@@ -105,6 +111,8 @@ export const useDesignStore = create<DesignState>()(
       layouts: [],
       selectedTrayId: null,
       selectedCompartmentId: null,
+      layoutViewMode: 'box',
+      editingTrayId: null,
 
       // Actions
       setCurrentStep: (step) => set({ currentStep: step }),
@@ -234,6 +242,8 @@ export const useDesignStore = create<DesignState>()(
           layouts: [],
           selectedTrayId: null,
           selectedCompartmentId: null,
+          layoutViewMode: 'box',
+          editingTrayId: null,
         }),
 
       // Tray structure actions
@@ -401,7 +411,7 @@ export const useDesignStore = create<DesignState>()(
         const { trayStructure, boxConfig } = get();
         if (!trayStructure) return;
 
-        const layouts: TrayLayout[] = trayStructure.trays.map(tray => {
+        const layouts: TrayLayout[] = trayStructure.trays.map((tray, index) => {
           const outerWall = 1.6;
           const divider = 1.2;
 
@@ -415,8 +425,21 @@ export const useDesignStore = create<DesignState>()(
           const usableLength = boxConfig.length - outerWall * 2;
           const packed = autoPackCompartments(compartments, usableWidth, usableLength, divider);
 
+          // Box-level positioning (simple vertical stack initially)
+          const trayCount = trayStructure.trays.length;
+          const boxY = index * (boxConfig.length / trayCount);
+          const boxLength = boxConfig.length / trayCount;
+
           return {
             trayId: tray.tray_id,
+
+            // Box positioning
+            boxX: 0,
+            boxY: boxY,
+            boxWidth: boxConfig.width,
+            boxLength: boxLength,
+
+            // Tray internals
             compartments: packed,
             outerWallThickness: outerWall,
             dividerThickness: divider,
@@ -426,7 +449,9 @@ export const useDesignStore = create<DesignState>()(
 
         set({
           layouts,
-          selectedTrayId: layouts[0]?.trayId || null,
+          layoutViewMode: 'box',
+          editingTrayId: null,
+          selectedTrayId: null,
           selectedCompartmentId: null,
         });
       },
@@ -443,6 +468,16 @@ export const useDesignStore = create<DesignState>()(
                       : comp
                   ),
                 }
+              : layout
+          ),
+        }));
+      },
+
+      updateTrayLayout: (trayId, updates) => {
+        set((state) => ({
+          layouts: state.layouts.map(layout =>
+            layout.trayId === trayId
+              ? { ...layout, ...updates }
               : layout
           ),
         }));
@@ -479,6 +514,26 @@ export const useDesignStore = create<DesignState>()(
         }));
       },
 
+      setLayoutViewMode: (mode) => {
+        set({ layoutViewMode: mode });
+      },
+
+      enterTrayView: (trayId) => {
+        set({
+          layoutViewMode: 'tray',
+          editingTrayId: trayId,
+          selectedCompartmentId: null,
+        });
+      },
+
+      exitTrayView: () => {
+        set({
+          layoutViewMode: 'box',
+          editingTrayId: null,
+          selectedCompartmentId: null,
+        });
+      },
+
       // Dev utilities
       loadTestData: () => {
         // Import test data dynamically to avoid bundling in production
@@ -512,6 +567,8 @@ export const useDesignStore = create<DesignState>()(
         layouts: state.layouts,
         selectedTrayId: state.selectedTrayId,
         selectedCompartmentId: state.selectedCompartmentId,
+        layoutViewMode: state.layoutViewMode,
+        editingTrayId: state.editingTrayId,
       }),
     }
   )

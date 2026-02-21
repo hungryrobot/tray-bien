@@ -1,6 +1,8 @@
 export { LayoutEditor } from './LayoutEditor';
+export { BoxView } from './BoxView';
+export { TrayView } from './TrayView';
+export { TrayRect } from './TrayRect';
 export { TrayCanvas } from './TrayCanvas';
-export { TrayTabBar } from './TrayTabBar';
 export { CompartmentProperties } from './CompartmentProperties';
 export { CompartmentRect } from './CompartmentRect';
 export { AutoPackButton } from './AutoPackButton';
