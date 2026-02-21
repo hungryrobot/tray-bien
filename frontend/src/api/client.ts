@@ -23,12 +23,20 @@ export async function extractComponents(
   provider: string,
   apiKey?: string
 ): Promise<ExtractionResult> {
+  console.log('📤 Sending to API:', { provider, hasApiKey: !!apiKey });
+
   const formData = new FormData();
   formData.append('file', file);
   formData.append('provider', provider);
   if (apiKey) {
     formData.append('api_key', apiKey);
   }
+
+  console.log('📦 FormData contents:', {
+    file: formData.get('file'),
+    provider: formData.get('provider'),
+    api_key: formData.get('api_key') ? '***hidden***' : 'none'
+  });
 
   const response = await api.post<ApiResponse<ExtractionResult>>(
     '/extract',

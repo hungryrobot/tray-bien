@@ -2,7 +2,7 @@
  * PDF upload component with provider selection.
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface Props {
   onUpload: (file: File, provider: string) => void;
@@ -13,7 +13,19 @@ interface Props {
 
 export function PDFUploader({ onUpload, onOpenSettings, loading, hasApiKey }: Props) {
   const [file, setFile] = useState<File | null>(null);
-  const [provider, setProvider] = useState('gemini');
+
+  // Load last selected provider from localStorage
+  const getInitialProvider = () => {
+    const saved = localStorage.getItem('tray-bien-last-provider');
+    return saved || 'gemini';
+  };
+
+  const [provider, setProvider] = useState(getInitialProvider);
+
+  // Save provider selection to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem('tray-bien-last-provider', provider);
+  }, [provider]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

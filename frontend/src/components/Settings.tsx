@@ -50,9 +50,13 @@ export function Settings({ onClose }: SettingsProps) {
     };
     setApiKeys(updated);
     localStorage.setItem('tray-bien-api-keys', JSON.stringify(updated));
+
+    // Also set this as the default provider for the upload form
+    localStorage.setItem('tray-bien-last-provider', selectedProvider);
+
     setTestResult({
       success: true,
-      message: `API key for ${selectedProvider} saved successfully!`,
+      message: `API key for ${selectedProvider} saved successfully! This provider is now selected on the main page.`,
     });
   };
 

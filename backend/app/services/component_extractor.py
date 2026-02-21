@@ -323,8 +323,8 @@ def _call_gemini_api(prompt: str, api_key: str) -> tuple:
 
         genai.configure(api_key=api_key)
 
-        # Use Gemini 2.5 Flash (latest fast model as of Feb 2026)
-        model = genai.GenerativeModel('models/gemini-2.5-flash')
+        # Use Gemini 1.5 Flash (fast and efficient model)
+        model = genai.GenerativeModel('gemini-1.5-flash')
 
         response = model.generate_content(
             prompt,

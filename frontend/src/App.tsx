@@ -39,11 +39,12 @@ function App() {
     setResult(null);
 
     try {
+      console.log(`🎯 handleUpload called with provider: ${provider}`);
       console.log(`Uploading ${file.name} to ${provider}...`);
 
       // Get API key from localStorage
       const apiKey = getApiKey(provider);
-      console.log(`API key loaded from localStorage: ${!!apiKey}`);
+      console.log(`API key loaded from localStorage for ${provider}: ${!!apiKey}`);
 
       const data = await extractComponents(file, provider, apiKey);
       console.log('Extraction successful:', data);
