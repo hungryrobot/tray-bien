@@ -14,6 +14,7 @@ interface ApiKeys {
   gemini?: string;
   claude?: string;
   openai?: string;
+  ollama?: string;
 }
 
 export function Settings({ onClose }: SettingsProps) {

@@ -1,0 +1,95 @@
+{
+  "cardboard": {
+    "budget": {
+      "thickness_mm": 1.1,
+      "range": [1.0, 1.2],
+      "description": "Lightweight games, small publishers",
+      "clearance_mm": 1.0,
+      "clearance_reason": "cardboard swells with humidity"
+    },
+    "standard": {
+      "thickness_mm": 1.5,
+      "description": "Most modern board games",
+      "clearance_mm": 1.0,
+      "default": true
+    },
+    "premium": {
+      "thickness_mm": 2.0,
+      "description": "Deluxe editions, heavier tokens",
+      "clearance_mm": 1.0
+    },
+    "heavy_duty": {
+      "thickness_mm": 2.5,
+      "description": "Player boards, chunky tiles",
+      "clearance_mm": 1.0
+    },
+    "luxury": {
+      "thickness_mm": 3.0,
+      "description": "Premium games (Stonemaier, etc.)",
+      "clearance_mm": 1.0
+    }
+  },
+  "cards": {
+    "standard": {
+      "gsm": 300,
+      "thickness_mm": 0.3,
+      "description": "Standard playing cards",
+      "default": true
+    },
+    "premium": {
+      "gsm": 350,
+      "thickness_mm": 0.4,
+      "description": "Durable card stock"
+    },
+    "tarot": {
+      "thickness_mm": 0.5,
+      "description": "Heavy tarot-weight cards"
+    }
+  },
+  "sleeves": {
+    "unsleeved": {
+      "thickness_add_mm": 0,
+      "description": "No sleeves",
+      "default": true
+    },
+    "thin": {
+      "thickness_add_mm": 0.1,
+      "description": "Penny sleeves, thin protection"
+    },
+    "premium": {
+      "thickness_add_mm": 0.15,
+      "description": "Dragon Shield, KMC, etc."
+    }
+  },
+  "wood": {
+    "thin_tokens": {
+      "thickness_mm": 3,
+      "description": "Resource cubes, thin discs",
+      "clearance_mm": 0.5
+    },
+    "standard_tokens": {
+      "thickness_mm": 5,
+      "description": "Most meeples, standard tokens",
+      "clearance_mm": 0.5,
+      "default": true
+    },
+    "chunky": {
+      "thickness_mm": 8,
+      "description": "Premium resources, thick meeples",
+      "clearance_mm": 0.5
+    }
+  },
+  "plastic": {
+    "standard": {
+      "thickness_mm": 2,
+      "description": "Standard plastic tokens",
+      "clearance_mm": 0.5,
+      "default": true
+    },
+    "thick": {
+      "thickness_mm": 3,
+      "description": "Chunky plastic pieces",
+      "clearance_mm": 0.5
+    }
+  }
+}

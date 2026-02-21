@@ -1,0 +1,272 @@
+{
+  "cards": {
+    "poker_standard": {
+      "name": "Poker (Standard)",
+      "width": 63.5,
+      "height": 88,
+      "thickness_per_card": 0.3,
+      "notes": "Most common card size (e.g., Dominion, Pandemic)"
+    },
+    "poker_sleeved": {
+      "name": "Poker (Sleeved - Standard)",
+      "width": 66,
+      "height": 91,
+      "thickness_per_card": 0.4,
+      "notes": "Standard sleeves add ~2.5mm width, ~3mm height, +0.1mm thickness"
+    },
+    "poker_sleeved_premium": {
+      "name": "Poker (Sleeved - Premium)",
+      "width": 67,
+      "height": 92,
+      "thickness_per_card": 0.45,
+      "notes": "Premium sleeves (Dragon Shield, KMC Perfect) are thicker"
+    },
+    "mini_standard": {
+      "name": "Mini Card (Standard)",
+      "width": 41,
+      "height": 63,
+      "thickness_per_card": 0.3,
+      "notes": "Common in Euro games (e.g., 7 Wonders)"
+    },
+    "mini_sleeved": {
+      "name": "Mini Card (Sleeved)",
+      "width": 43,
+      "height": 65,
+      "thickness_per_card": 0.4,
+      "notes": "Mini sleeves add ~2mm width, ~2mm height"
+    },
+    "tarot": {
+      "name": "Tarot Size",
+      "width": 70,
+      "height": 120,
+      "thickness_per_card": 0.35,
+      "notes": "Larger cards (e.g., Dixit, Mysterium)"
+    },
+    "bridge": {
+      "name": "Bridge (Standard)",
+      "width": 57,
+      "height": 88,
+      "thickness_per_card": 0.3,
+      "notes": "Narrower than poker (e.g., some card games)"
+    },
+    "bridge_sleeved": {
+      "name": "Bridge (Sleeved)",
+      "width": 59,
+      "height": 91,
+      "thickness_per_card": 0.4,
+      "notes": "Sleeved bridge cards"
+    }
+  },
+  "dice": {
+    "d4": {
+      "name": "d4 (4-sided)",
+      "size": 16,
+      "notes": "Pyramid shape, height ~14mm"
+    },
+    "d6_12mm": {
+      "name": "d6 (12mm)",
+      "size": 12,
+      "notes": "Small standard dice"
+    },
+    "d6_16mm": {
+      "name": "d6 (16mm)",
+      "size": 16,
+      "notes": "Standard gaming dice (most common)"
+    },
+    "d6_19mm": {
+      "name": "d6 (19mm)",
+      "size": 19,
+      "notes": "Large casino dice"
+    },
+    "d8": {
+      "name": "d8 (8-sided)",
+      "size": 16,
+      "notes": "Octahedral, typical size"
+    },
+    "d10": {
+      "name": "d10 (10-sided)",
+      "size": 16,
+      "notes": "Pentagonal trapezohedron"
+    },
+    "d12": {
+      "name": "d12 (12-sided)",
+      "size": 18,
+      "notes": "Dodecahedron, slightly larger"
+    },
+    "d20": {
+      "name": "d20 (20-sided)",
+      "size": 20,
+      "notes": "Icosahedron, largest common die"
+    }
+  },
+  "tokens": {
+    "small_round": {
+      "name": "Small Round Token",
+      "diameter": 15,
+      "thickness": 2,
+      "notes": "Common cardboard punch tokens"
+    },
+    "medium_round": {
+      "name": "Medium Round Token",
+      "diameter": 25,
+      "thickness": 2,
+      "notes": "Standard resource tokens"
+    },
+    "large_round": {
+      "name": "Large Round Token",
+      "diameter": 35,
+      "thickness": 2.5,
+      "notes": "Victory point tokens, large markers"
+    },
+    "small_square": {
+      "name": "Small Square Token",
+      "width": 15,
+      "height": 15,
+      "thickness": 2,
+      "notes": "Cube-shaped cardboard tokens"
+    },
+    "medium_square": {
+      "name": "Medium Square Token",
+      "width": 25,
+      "height": 25,
+      "thickness": 2,
+      "notes": "Standard square tiles"
+    },
+    "large_square": {
+      "name": "Large Square Token",
+      "width": 40,
+      "height": 40,
+      "thickness": 2.5,
+      "notes": "Large tiles or thick cardboard"
+    },
+    "poker_chip": {
+      "name": "Poker Chip",
+      "diameter": 39,
+      "thickness": 3.3,
+      "notes": "Clay/plastic poker chips (e.g., Brass, Splendor)"
+    },
+    "wooden_cube_8mm": {
+      "name": "Wooden Cube (8mm)",
+      "width": 8,
+      "height": 8,
+      "depth": 8,
+      "notes": "Tiny resource cubes"
+    },
+    "wooden_cube_10mm": {
+      "name": "Wooden Cube (10mm)",
+      "width": 10,
+      "height": 10,
+      "depth": 10,
+      "notes": "Standard resource cubes"
+    },
+    "wooden_cube_12mm": {
+      "name": "Wooden Cube (12mm)",
+      "width": 12,
+      "height": 12,
+      "depth": 12,
+      "notes": "Large resource cubes"
+    }
+  },
+  "meeples": {
+    "standard_meeple": {
+      "name": "Standard Meeple",
+      "width": 14,
+      "height": 16,
+      "depth": 8,
+      "notes": "Classic Carcassonne-style meeple"
+    },
+    "large_meeple": {
+      "name": "Large Meeple",
+      "width": 18,
+      "height": 20,
+      "depth": 10,
+      "notes": "Oversized player pieces"
+    },
+    "small_miniature": {
+      "name": "Small Miniature (25mm base)",
+      "base_diameter": 25,
+      "height": 35,
+      "notes": "Typical board game mini, unpainted"
+    },
+    "medium_miniature": {
+      "name": "Medium Miniature (32mm base)",
+      "base_diameter": 32,
+      "height": 50,
+      "notes": "Larger detailed miniature"
+    }
+  },
+  "boards": {
+    "player_board_small": {
+      "name": "Small Player Board",
+      "width": 150,
+      "height": 100,
+      "thickness": 2,
+      "notes": "Individual player mats"
+    },
+    "player_board_medium": {
+      "name": "Medium Player Board",
+      "width": 200,
+      "height": 150,
+      "thickness": 2.5,
+      "notes": "Standard player boards"
+    },
+    "player_board_large": {
+      "name": "Large Player Board",
+      "width": 250,
+      "height": 200,
+      "thickness": 3,
+      "notes": "Large faction boards (e.g., Spirit Island)"
+    },
+    "game_board_bi_fold": {
+      "name": "Game Board (Bi-fold)",
+      "width": 285,
+      "height": 285,
+      "thickness_folded": 5,
+      "notes": "Standard folding game board, folded in half"
+    },
+    "game_board_quad_fold": {
+      "name": "Game Board (Quad-fold)",
+      "width": 285,
+      "height": 285,
+      "thickness_folded": 8,
+      "notes": "Game board folded into quarters (thicker)"
+    }
+  },
+  "other": {
+    "rulebook_small": {
+      "name": "Small Rulebook",
+      "width": 140,
+      "height": 210,
+      "thickness": 5,
+      "notes": "A5 size rulebook (typical)"
+    },
+    "rulebook_large": {
+      "name": "Large Rulebook",
+      "width": 210,
+      "height": 297,
+      "thickness": 8,
+      "notes": "A4 size rulebook (large games)"
+    }
+  },
+  "clearances": {
+    "card_horizontal": 2,
+    "card_vertical": 5,
+    "token_cardboard": 1,
+    "token_wooden": 0.5,
+    "dice": 2,
+    "miniature": 2,
+    "board": 3,
+    "rulebook": 5,
+    "notes": "Default clearances in mm to add to component dimensions"
+  },
+  "metadata": {
+    "version": "1.0",
+    "units": "millimeters",
+    "sources": [
+      "BoardGameGeek component databases",
+      "Manufacturer specifications",
+      "Community measurements"
+    ],
+    "notes": "Dimensions are nominal. Actual components may vary by manufacturer. Always add clearances as specified in the Design Philosophy document."
+  }
+}
