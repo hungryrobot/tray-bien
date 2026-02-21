@@ -62,3 +62,15 @@ htmlcov/
 # Temporary files
 *.tmp
 *.bak
+
+# Game rulebook PDFs (large binary files)
+game_Rules_EN/
+
+# AI-generated session summaries
+BUGFIX_SUMMARY.md
+FACTION_DETECTION_IMPLEMENTATION.md
+FINAL_UI_FIXES.md
+IMPLEMENTATION_CHECKLIST.md
+MATERIAL_FIRST_IMPLEMENTATION.md
+UI_IMPROVEMENTS_SUMMARY.md
+VERIFICATION_CHECKLIST.md

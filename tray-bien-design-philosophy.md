@@ -1,9 +1,9 @@
-# Tray Bien — Design Philosophy & Best Practices
+# Tray Bien â€” Design Philosophy & Best Practices
 
 ### *The rules that make an insert worth printing*
 
 > **Companion document to the [Tray Bien Project Guide](tray-bien-project-guide.md)**
-> The Project Guide tells Claude Code *how to build the app* (tech stack, phases, file structure). This document tells the app *how to behave* — the defaults, rules, tolerances, and UI guidance that make Tray Bien's output genuinely good. Both documents are fed to Claude Code during development; this one is also embedded into the AI chat panel's system prompt so the refinement AI follows these rules too.
+> The Project Guide tells Claude Code *how to build the app* (tech stack, phases, file structure). This document tells the app *how to behave* â€” the defaults, rules, tolerances, and UI guidance that make Tray Bien's output genuinely good. Both documents are fed to Claude Code during development; this one is also embedded into the AI chat panel's system prompt so the refinement AI follows these rules too.
 
 ---
 
@@ -16,11 +16,11 @@ Every decision in Tray Bien follows this priority order. When two goals conflict
 The entire reason inserts exist. A great insert means "open box, place trays on table, play." Teardown is "put trays back, close box." If an insert doesn't dramatically reduce setup time, it has failed regardless of how pretty it is.
 
 **What this means in practice:**
-- Trays are designed to be **lifted out and placed directly on the table** during play — they double as resource pools, token banks, and card holders. No transferring components from tray to bowl.
+- Trays are designed to be **lifted out and placed directly on the table** during play â€” they double as resource pools, token banks, and card holders. No transferring components from tray to bowl.
 - **Player trays** should be a first-class concept: one tray per player containing all their starting components, so setup is "deal one tray per person."
 - Components should be **grouped by when they're needed** (setup, during play, end-game scoring), not just by type.
 - **"Dump and done" teardown**: at the end of a game, each player sweeps their stuff into their tray, shared resources go back in the shared tray, trays stack into box. Under 2 minutes for any game.
-- Card compartments should allow **grabbing the whole deck at once** — not fishing cards out one by one.
+- Card compartments should allow **grabbing the whole deck at once** â€” not fishing cards out one by one.
 - The insert should make it **obvious where everything goes**. Embossed labels, shaped compartments, and color coding all serve this goal.
 
 ### 2. 🧊 Compact Fit (Secondary Goal)
@@ -28,8 +28,8 @@ The entire reason inserts exist. A great insert means "open box, place trays on 
 Wasted space inside a game box is wasted shelf space. Every cubic millimeter should either hold a component or serve a structural purpose.
 
 **What this means in practice:**
-- **Multi-tray stacking is preferred** — use 2-3 layers to fill the box height rather than leaving dead air above a single shallow tray.
-- Compartment sizing should be **snug but not tight** — just enough clearance for easy grab-and-go, no more.
+- **Multi-tray stacking is preferred** â€” use 2-3 layers to fill the box height rather than leaving dead air above a single shallow tray.
+- Compartment sizing should be **snug but not tight** â€” just enough clearance for easy grab-and-go, no more.
 - **Shared walls** between adjacent compartments save space vs. separate boxes.
 - If the game box has significant unused height after the insert, consider whether the trays could be taller (deeper compartments) rather than wasting vertical space.
 - **Expansion awareness**: where practical, leave a compartment or flexible space for one expansion's worth of components. Don't over-engineer for expansions that may never be bought, but don't make it impossible either.
@@ -41,108 +41,44 @@ A beautiful insert makes opening the box feel like an event. It signals care and
 **Default aesthetic choices:**
 - **Rounded/filleted corners** on all compartments (radius 2-3mm). Looks better, feels better in hand, and is actually stronger than sharp corners for 3D prints.
 - **Embossed labels** on compartments identifying what goes where. Legible at a glance, tactile, and doubles as a functional aid for setup speed.
-- **Game-colored filament** — match the dominant color palette of the game. A Wingspan insert in soft teal, a Scythe insert in dark olive. The app should suggest colors based on the game selected. This is an AMS/multi-color printer feature but even single-color prints benefit from choosing the right filament color.
-- **No honeycomb lids by default** — clean, solid lids with an embossed game name or logo. Honeycomb is a stylistic choice users can opt into.
+- **Game-colored filament** â€” match the dominant color palette of the game. A Wingspan insert in soft teal, a Scythe insert in dark olive. The app should suggest colors based on the game selected. This is an AMS/multi-color printer feature but even single-color prints benefit from choosing the right filament color.
+- **No honeycomb lids by default** â€” clean, solid lids with an embossed game name or logo. Honeycomb is a stylistic choice users can opt into.
 - **Consistent visual language** across trays in the same insert: same corner radius, same wall thickness, same label font size.
 
 ---
 
 ## Visual Explainers: Show, Don't Just Tell
 
-When the app presents design choices — pedestal bases, finger cutouts, inset lids, nested sub-trays — it should **show a simple line-art cross-section diagram** next to the description. Users shouldn't have to Google what a "pedestal base" is.
-
-### How it works in the UI:
-Each design concept gets a small inline SVG (roughly 200×120px) showing a cross-section or isometric sketch. These are generated programmatically (not image files) so they scale cleanly and are easy to maintain.
+When the app presents design choices — pedestal bases, finger cutouts, inset lids, nested sub-trays — it should **show visual diagrams** next to the description. Users shouldn't have to Google what a "pedestal base" is.
 
 ### Concepts that need visual explainers:
 
-**Pedestal Base**
-A raised bump on the compartment floor. Push down on one end of a card stack → other end pops up for grabbing.
-```
-Diagram: Side cross-section view
-┌─────────────────────┐
-│  ┌───────────────┐  │
-│  │ ▒▒▒▒ cards ▒▒▒│  │  ← cards rest on pedestal
-│  │ ▒▒▒▒▒▒▒▒▒▒▒▒▒ │  │
-│  └───────────────┘  │
-│    ┌───────────┐    │  ← pedestal bump (raised floor)
-└────┘           └────┘
-  Push here↓      ↑Pops up
-```
+- **Pedestal Base** — A raised bump on the compartment floor. Push down on one end of a card stack → other end pops up for grabbing.
 
-**Finger Cutout**
-A scoop in the compartment wall so you can reach in and grab components.
-```
-Diagram: Front view of compartment
-┌──┐         ┌──┐
-│  │         │  │
-│  │         │  │
-│  │         │  │
-│  └─╮     ╭─┘  │  ← cutout curves into floor
-│    ╰─────╯    │
-└───────────────┘
-```
+- **Finger Cutout** — A scoop in the compartment wall so you can reach in and grab components.
 
-**Bottom Hole (Vacuum Release)**
-A hole in the compartment floor lets you push tokens up from below. Also prevents suction.
-```
-Diagram: Side cross-section view
-┌─────────────────────┐
-│  ┌───────────────┐  │
-│  │ ○ ○ ○ tokens  │  │
-│  │ ○ ○ ○ ○ ○ ○ ○ │  │
-│  └───────────────┘  │
-└───────┘     └───────┘
-        ↑ hole ↑
-     push up from below
-```
+- **Bottom Hole (Vacuum Release)** — A hole in the compartment floor lets you push tokens up from below. Also prevents suction.
 
-**Inset Lid vs. Cap Lid**
-Inset sits inside walls (thinner, saves height). Cap sits on top of walls (sturdier, adds height).
-```
-Inset lid:              Cap lid:
-  ┌──────────┐         ┌────────────┐
-  │╔════════╗│         │            │
-  │║  lid   ║│         ╞════════════╡
-  │╚════════╝│         │            │
-  │          │         │            │
-  └──────────┘         └────────────┘
-  No added height      Adds lid thickness
-```
+- **Inset Lid vs. Cap Lid** — Inset sits inside walls (thinner, saves height). Cap sits on top of walls (sturdier, adds height).
 
-**Nested Sub-Trays**
-Removable smaller trays inside a parent tray. Lift out and place on table.
-```
-Diagram: Top-down view of parent tray
-┌──────────────────────────┐
-│ ┌───────────┐┌──────────┐│
-│ │  coins    ││  coins   ││
-│ │  (left)   ││  (right) ││
-│ │  ↑ lift   ││  ↑ lift  ││
-│ └───────────┘└──────────┘│
-└──────────────────────────┘
-  ← table left   table right →
-```
+- **Nested Sub-Trays** — Removable smaller trays inside a parent tray. Lift out and place on table.
 
-**Angled Card Well**
-Tilted compartment for thumbing through cards during play (market rows, display decks).
-```
-Diagram: Side cross-section view
-┌─────────────────────┐
-│     ╱▒▒▒▒▒▒▒▒│      │
-│    ╱▒▒cards▒▒│      │
-│   ╱▒▒▒▒▒▒▒▒▒│      │  ← 5-10° tilt
-│  ╱▒▒▒▒▒▒▒▒▒▒│      │
-│ ╱────────────┘      │
-└─────────────────────┘
-  Thumb through easily →
-```
+- **Angled Card Well** — Tilted compartment for thumbing through cards during play (market rows, display decks).
 
-### Implementation notes:
-- These should be **inline SVGs** generated in Python (not stored image files) so they can be themed/colored dynamically.
-- Show the relevant diagram whenever a design choice appears in the questionnaire or is suggested by the AI.
-- Tooltip/expandable — don't clutter the UI. Show the diagram on hover, click, or in a "What's this?" expandable section next to each option.
-- The AI chat panel should also be able to reference these diagrams when suggesting modifications ("I've added a pedestal base to the card compartment — here's what that looks like: [diagram]").
+### Implementation approach:
+
+Design concepts should be illustrated with **actual images or properly-rendered diagrams** (not ASCII art). Options:
+- Photos of real inserts showing each concept
+- Simple 3D renders created in OpenSCAD or Blender  
+- Programmatically-generated SVG illustrations
+- Store images in `src/ui/assets/diagrams/` if using image files
+
+### UI Guidelines:
+
+- Show diagrams in expandable "What's this?" sections next to each option
+- Keep diagrams simple and focused on the key concept
+- The AI chat panel should reference these concepts when suggesting modifications
+- Until proper visuals are added, show text descriptions only
 
 ### 4. 🔧 Durability (Baseline Requirement)
 
@@ -151,7 +87,7 @@ Inserts don't take much abuse, but they do get handled hundreds of times. They n
 **What this means in practice:**
 - Wall thickness and print settings (below) are chosen to be sturdy enough for years of use, not optimized for minimum filament.
 - Rounded corners resist cracking at stress points.
-- PLA is fine for inserts — they live indoors, don't bear structural loads, and the rigidity is actually desirable for clean compartments.
+- PLA is fine for inserts â€” they live indoors, don't bear structural loads, and the rigidity is actually desirable for clean compartments.
 
 ---
 
@@ -160,11 +96,11 @@ Inserts don't take much abuse, but they do get handled hundreds of times. They n
 Games are stored vertically (like books on a shelf). **Every insert must work when the box is on its side.** This single requirement drives many downstream decisions:
 
 ### What vertical storage demands:
-- **The total insert stack must fill the box height** so components can't shift vertically. If there's a gap, add a spacer tray or size the top tray to fill it. The board game's own board and rulebook sitting on top of the insert stack can serve this purpose — plan for it.
-- **When the stack is tight, the trays themselves become lids.** A well-packed box where tray 2 sits flush on tray 1 doesn't need a separate lid on tray 1 — the tray above holds everything in place. This saves height, filament, and print time.
+- **The total insert stack must fill the box height** so components can't shift vertically. If there's a gap, add a spacer tray or size the top tray to fill it. The board game's own board and rulebook sitting on top of the insert stack can serve this purpose â€” plan for it.
+- **When the stack is tight, the trays themselves become lids.** A well-packed box where tray 2 sits flush on tray 1 doesn't need a separate lid on tray 1 â€” the tray above holds everything in place. This saves height, filament, and print time.
 - **Card compartments need walls tall enough** that cards can't slide out sideways when the box is vertical. Or use lids.
 - **Consider which edge faces "up" on the shelf.** The box spine (usually the short edge) faces out. Components should be oriented so gravity pulls them into their compartments, not out of them, when stored this way.
-- **No loose components on top of trays.** Everything lives inside a contained space — either a lidded compartment, or trapped by the tray/board/rulebook above it.
+- **No loose components on top of trays.** Everything lives inside a contained space â€” either a lidded compartment, or trapped by the tray/board/rulebook above it.
 
 ### Smart Lid Logic (per-tray, not blanket)
 
@@ -173,24 +109,24 @@ Lids are **optional per tray**, not a global on/off. The app should evaluate eac
 **Lid NOT needed when:**
 - The tray above it sits flush and acts as a lid (tight-stacked trays)
 - The game board or rulebook sits directly on top and provides full coverage
-- The insert fills the box so completely that nothing can shift — gravity and compression do the work
+- The insert fills the box so completely that nothing can shift â€” gravity and compression do the work
 - The tray contains large, heavy components that won't migrate (thick board tiles, chunky miniatures)
 
 **Lid RECOMMENDED when:**
 - It's the **top tray** in the stack with no board/rulebook covering it
 - The tray contains **small loose components** (tokens, dice, cubes) that could spill through gaps
-- The tray will be **removed and carried to the table** during play — a lid keeps it portable
+- The tray will be **removed and carried to the table** during play â€” a lid keeps it portable
 - The tray above doesn't fully cover this tray's footprint (e.g., two smaller trays sit side-by-side on top of one large tray)
 - The tray contains **cards standing vertically** that could fan out sideways
 
 **Lid design when used:**
-- Inset lids (sit inside the tray walls) are preferred — thinner, don't add exterior height.
+- Inset lids (sit inside the tray walls) are preferred â€” thinner, don't add exterior height.
 - Tolerance: 0.3mm per side (lid is 0.6mm narrower and shorter than tray interior). Snug enough to hold during vertical storage, loose enough to pop off with one hand.
 - **Finger cutouts on lids** (front and back) so you can pop the lid off while the tray is still in the box.
 - Solid lids for structural trays (supporting weight above). Decorative/patterned lids only for the top visible tray.
-- Lids that double as **component trays during play** — flip them over, and the lid becomes a shallow dish for discards, overflow tokens, etc.
+- Lids that double as **component trays during play** â€” flip them over, and the lid becomes a shallow dish for discards, overflow tokens, etc.
 
-**UI implementation:** Each tray in the design gets a lid toggle (on/off) with the app's recommendation pre-selected and a brief reason shown ("No lid needed — tray 2 covers this" or "Lid recommended — small tokens could shift").
+**UI implementation:** Each tray in the design gets a lid toggle (on/off) with the app's recommendation pre-selected and a brief reason shown ("No lid needed â€” tray 2 covers this" or "Lid recommended â€” small tokens could shift").
 
 ---
 
@@ -198,17 +134,17 @@ Lids are **optional per tray**, not a global on/off. The app should evaluate eac
 
 ### Cards
 
-- **Always ask: sleeved or unsleeved?** This is a per-design setting, not a global one. Sleeve thickness varies (60-100 micron), so offer presets: unsleeved, thin sleeves (60-80μm), and premium sleeves (80-100μm+).
+- **Always ask: sleeved or unsleeved?** This is a per-design setting, not a global one. Sleeve thickness varies (60-100 micron), so offer presets: unsleeved, thin sleeves (60-80Î¼m), and premium sleeves (80-100Î¼m+).
 - **Sleeved card dimensions** add ~1.5mm to width and ~2mm to height over the base card size. For premium sleeves, budget 2mm width and 2.5mm height.
-- **Compartment depth for card stacks**: measure the stack height, then add 3-5mm clearance above the stack for finger access. Don't make it so deep that a small deck rattles around — use a pedestal base or spring floor for short stacks.
+- **Compartment depth for card stacks**: measure the stack height, then add 3-5mm clearance above the stack for finger access. Don't make it so deep that a small deck rattles around â€” use a pedestal base or spring floor for short stacks.
 - **Pedestal bases** (a raised bump on the compartment floor) let you push down on one end of a card stack to pop the other end up for easy grabbing. Excellent for interior compartments where finger cutouts aren't possible.
 - **Finger cutouts on at least one short side** of every card compartment. Cut through the full wall height. Width should be ~60% of the compartment width.
-- **Angled card wells** (5-10° tilt) make it easy to thumb through cards during play. Great for market rows or display decks. This is a "nice to have" the AI chat can add.
+- **Angled card wells** (5-10Â° tilt) make it easy to thumb through cards during play. Great for market rows or display decks. This is a "nice to have" the AI chat can add.
 - **Card dividers** for games with multiple decks stored in one compartment. BIT supports these natively.
 
 ### Tokens & Chits
 
-- **Round compartments for round tokens** — hex or round shapes in BIT. Prevents tokens from wedging into corners.
+- **Round compartments for round tokens** â€” hex or round shapes in BIT. Prevents tokens from wedging into corners.
 - **Slight oversize**: add 1mm per dimension for cardboard tokens (they swell slightly with humidity). Add 0.5mm for wooden/plastic tokens.
 - **Scooped/curved walls** at the base make tokens easier to pick up. A finger cutout that goes into the floor of the compartment (BIT's CMP_CUTOUT_DEPTH_PCT) achieves this.
 - **Bottom holes** for token stacks: a small hole in the floor lets you push tokens up from below. Especially useful for tightly packed stacks. Also prevents vacuum suction when lifting tokens out.
@@ -216,13 +152,13 @@ Lids are **optional per tray**, not a global on/off. The app should evaluate eac
 
 ### Dice
 
-- **Generous clearance** — dice need room to be grabbed. Add 2-3mm per dimension beyond the dice size.
+- **Generous clearance** â€” dice need room to be grabbed. Add 2-3mm per dimension beyond the dice size.
 - **Shared dice pools** work fine in a single open compartment with finger cutouts. Don't over-compartmentalize dice unless the game has player-specific dice.
 - **Rounded compartments** prevent dice from wedging into corners.
 
 ### Miniatures & Meeples
 
-- **Shaped compartments for minis** where possible — a custom cutout that matches the mini's footprint prevents rattling and looks premium.
+- **Shaped compartments for minis** where possible â€” a custom cutout that matches the mini's footprint prevents rattling and looks premium.
 - **For standard meeples**: slight oversize rectangular compartments with bottom holes work fine. Meeples stack predictably.
 - **Height clearance**: measure the tallest mini with any attached accessories (swords, flags). Add 2mm above the tallest point.
 - **Padding material**: for painted minis, consider slightly wider compartments (1-2mm extra) so paint doesn't rub against walls. The AI chat panel is ideal for these custom requests.
@@ -253,7 +189,7 @@ A tray that sits in the center of the table during play, holding public resource
 **Design notes:**
 - Wider, shallower compartments for easy access from multiple angles.
 - Finger cutouts on all four sides if tokens need to be grabbed from any direction.
-- Labels especially important here — "wood," "stone," "gold" etc.
+- Labels especially important here â€” "wood," "stone," "gold" etc.
 - Consider splitting into two identical half-trays for long tables (put one at each end).
 
 ### Pattern 3: The Setup Tray
@@ -271,8 +207,8 @@ Multiple trays stacked 2-3 deep inside the box. Each tray has a lid only where n
 - Bottom tray = least-accessed components (setup tray, expansion content, rarely-used variants).
 - Top tray = most-accessed components (player trays, shared resources).
 - All trays the same footprint (box interior dimensions minus ~1mm clearance per side).
-- If tray 2 sits flush on tray 1, tray 1 doesn't need a lid — tray 2 IS the lid.
-- Lid of bottom tray supports the weight of trays above it only if there's no direct stacking — use solid lids for these, not decorative patterns.
+- If tray 2 sits flush on tray 1, tray 1 doesn't need a lid â€” tray 2 IS the lid.
+- Lid of bottom tray supports the weight of trays above it only if there's no direct stacking â€” use solid lids for these, not decorative patterns.
 
 ### Pattern 5: The Nested Sub-Tray
 A parent tray containing **removable smaller trays** that lift out independently. The parent tray defines the footprint for box fit; the sub-trays are grab-and-go during play.
@@ -283,13 +219,248 @@ A parent tray containing **removable smaller trays** that lift out independently
 - **Market row + supply**: A tray where the visible card market is one sub-tray (placed near the board) and the draw deck is another (kept nearby but separate).
 
 **Design notes:**
-- Parent tray walls are **outer walls only** — no internal dividers. The sub-trays themselves create the divisions.
+- Parent tray walls are **outer walls only** â€” no internal dividers. The sub-trays themselves create the divisions.
 - Sub-trays need **0.5mm clearance per side** within the parent tray for easy lift-out.
 - Sub-trays should have **finger cutouts or a lip/tab** for grabbing.
 - Sub-trays within the same parent should be the **same height** so they stack flush and the tray above (or a lid) sits flat.
 - The parent tray floor can have **raised registration ridges** (0.5mm tall) between sub-tray positions to prevent lateral sliding.
-- **Label the parent tray floor** with outlines or text showing which sub-tray goes where — makes teardown intuitive.
-- This pattern is ideal for components accessed by **multiple people from different table positions** — it solves the "pass the token bowl" problem permanently.
+- **Label the parent tray floor** with outlines or text showing which sub-tray goes where â€” makes teardown intuitive.
+- This pattern is ideal for components accessed by **multiple people from different table positions** â€” it solves the "pass the token bowl" problem permanently.
+
+---
+
+## Material-First Component Entry Flow
+
+**Core principle: Ask for material type first, then auto-calculate thickness values.** This reduces measurement burden and improves accuracy — users select from known standards instead of measuring thin individual components.
+
+### Why Material-First Works Better
+
+1. **Easier measurements** — Measure one card stack with calipers (easy) instead of individual card thickness (hard)
+2. **Built-in validation** — App can flag unusual results and catch measurement errors
+3. **Automatic clearance** — Material properties determine the correct clearance to apply
+4. **Educational** — Users learn about component quality standards
+
+### Cards — Stack Measurement Method
+
+Instead of asking users to measure individual card thickness (~0.3mm is difficult to measure accurately), the app asks for stack measurements and calculates thickness automatically.
+
+**Entry flow:**
+
+1. **Card type dropdown:**
+   - Standard playing cards (300gsm, ~0.3mm per card)
+   - Premium cards (350gsm, ~0.4mm per card)
+   - Tarot-weight cards (~0.5mm per card)
+   - Custom thickness
+
+2. **Sleeved status:**
+   - Unsleeved
+   - Thin sleeves (+0.1mm per card)
+   - Premium sleeves (+0.15mm per card)
+
+3. **The smart measurement:**
+   - "How many cards will be in this compartment?" [number input]
+   - "Measure the full stack height with calipers" [mm input]
+   - **App calculates:** per-card thickness = stack height ÷ quantity
+   - **Shows validation:** "That's 0.32mm per card — standard thickness ✓"
+   - **Flags weird results:** "⚠️ That's 0.7mm per card — thicker than normal. Premium linen cards or measurement error?"
+
+4. **Card dimensions:**
+   - Select from presets (Poker, Mini, Tarot, Bridge) or enter custom L×W
+
+**Result:** User measures once, app handles the math and validates the result.
+
+### Cardboard Components — Material Standards
+
+For tokens, tiles, and boards, material thickness follows industry standards. Users select the material grade instead of measuring individual components.
+
+**Material dropdown with auto-filled thicknesses:**
+
+```
+┌─────────────────────────────────────────────┐
+│ Component Material                          │
+├─────────────────────────────────────────────┤
+│ ○ Budget cardboard (1.0-1.2mm)             │
+│   Lightweight games, small publishers       │
+│                                             │
+│ ● Standard cardboard (1.5mm) ← DEFAULT     │
+│   Most modern board games                   │
+│                                             │
+│ ○ Premium cardboard (2.0mm)                │
+│   Deluxe editions, heavier tokens           │
+│                                             │
+│ ○ Heavy-duty cardboard (2.5mm)             │
+│   Player boards, chunky tiles               │
+│                                             │
+│ ○ Luxury cardboard (3.0mm)                 │
+│   Premium games (Stonemaier, etc.)          │
+│                                             │
+│ ○ Custom thickness → [___] mm              │
+└─────────────────────────────────────────────┘
+```
+
+**After material selection:**
+- Thickness auto-fills based on material standard
+- Clearance auto-applies (+1mm for cardboard — humidity swell factor)
+- User only enters width × length (or diameter for round tokens)
+
+### Wooden/Plastic Components — Material Standards
+
+**Material presets for wooden components:**
+- Thin wooden tokens (3mm) — resource cubes, thin discs
+- Standard wooden tokens (5mm) — most meeples, standard pieces
+- Chunky wooden tokens (8mm) — premium resources, thick meeples
+- Wooden dice (16mm per d6 face)
+- Custom thickness
+
+**Material presets for plastic components:**
+- Standard plastic tokens (2mm)
+- Thick plastic tokens (3mm)
+- Custom thickness
+
+**Clearance:** Wooden/plastic get +0.5mm clearance (dimensionally stable, less than cardboard)
+
+### Material Standards Reference File
+
+The app uses `material_standards.json` to store these values:
+
+```json
+{
+  "cardboard": {
+    "budget": {
+      "thickness_mm": 1.1,
+      "range": [1.0, 1.2],
+      "description": "Lightweight games, small publishers",
+      "clearance_mm": 1.0,
+      "clearance_reason": "cardboard swells with humidity"
+    },
+    "standard": {
+      "thickness_mm": 1.5,
+      "description": "Most modern board games",
+      "clearance_mm": 1.0,
+      "default": true
+    },
+    "premium": {
+      "thickness_mm": 2.0,
+      "description": "Deluxe editions, heavier tokens",
+      "clearance_mm": 1.0
+    },
+    "heavy_duty": {
+      "thickness_mm": 2.5,
+      "description": "Player boards, chunky tiles",
+      "clearance_mm": 1.0
+    },
+    "luxury": {
+      "thickness_mm": 3.0,
+      "description": "Premium games (Stonemaier, etc.)",
+      "clearance_mm": 1.0
+    }
+  },
+  "cards": {
+    "standard": {
+      "gsm": 300,
+      "thickness_mm": 0.3,
+      "description": "Standard playing cards",
+      "default": true
+    },
+    "premium": {
+      "gsm": 350,
+      "thickness_mm": 0.4,
+      "description": "Durable card stock"
+    },
+    "tarot": {
+      "thickness_mm": 0.5,
+      "description": "Heavy tarot-weight cards"
+    }
+  },
+  "wood": {
+    "thin_tokens": {
+      "thickness_mm": 3,
+      "description": "Resource cubes, thin discs",
+      "clearance_mm": 0.5
+    },
+    "standard_tokens": {
+      "thickness_mm": 5,
+      "description": "Most meeples, standard tokens",
+      "clearance_mm": 0.5,
+      "default": true
+    },
+    "chunky": {
+      "thickness_mm": 8,
+      "description": "Premium resources, thick meeples",
+      "clearance_mm": 0.5
+    }
+  },
+  "plastic": {
+    "standard": {
+      "thickness_mm": 2,
+      "description": "Standard plastic tokens",
+      "clearance_mm": 0.5,
+      "default": true
+    },
+    "thick": {
+      "thickness_mm": 3,
+      "description": "Chunky plastic pieces",
+      "clearance_mm": 0.5
+    }
+  }
+}
+```
+
+### UI Implementation Guidelines
+
+**Component entry form structure:**
+
+1. **Component name:** [text input]
+2. **Component type:** [dropdown: Cards, Tokens, Tiles, Dice, Meeples, Custom]
+3. **Material:** [dropdown populated based on component type — shows description and thickness]
+4. **Measurement method:**
+   - **For cards:** Stack measurement (quantity + total height)
+   - **For everything else:** Auto-filled thickness from material standard
+5. **Dimensions:** Width × Length (auto-populated from standards if known size selected)
+6. **Quantity:** [number input]
+
+**Validation indicators:**
+- ✓ Green checkmark: "1.5mm matches standard cardboard"
+- ⚠️ Warning: "That's 0.7mm per card — verify measurement"
+- 💡 Info: "+1mm clearance applied for humidity swell"
+
+### PDF Import Integration
+
+When AI extracts components from rulebook PDFs, the review screen should:
+
+1. **List each extracted component** with editable fields
+2. **For each component, ask: "What material are these made of?"** with the appropriate material dropdown
+3. **Auto-fill thickness** based on material selection
+4. **User only needs to verify/measure:** width × length dimensions
+5. **Show suggestions:** "These tokens are described as 'premium quality' — likely 2.0mm cardboard"
+
+This dramatically reduces manual entry burden while maintaining accuracy.
+
+### Standard Board Game Component Thicknesses
+
+Based on industry standards and community measurements:
+
+**Game Boards:**
+- Standard: 1.5-2.0mm greyboard
+- Premium/durable: 2.5mm
+- Luxury: 3.0mm
+
+**Tokens & Tiles:**
+- Standard punchboard: 1.5mm
+- Premium/chunky feel: 2.0-3.0mm
+
+**Boxes:**
+- Standard: 1.5-2.0mm greyboard (often covered with 120-160gsm paper)
+
+**Player Boards:**
+- Standard: 1.5-2.0mm
+- Premium/double-layer: 2.5mm
+
+**Cards:**
+- Standard cardstock: 300gsm (~0.3mm)
+- Premium cardstock: 350gsm (~0.4mm)
+
+These standards should be referenced in tooltips and help text throughout the component entry UI.
 
 ---
 
@@ -299,7 +470,7 @@ These are the default values Tray Bien should use. All derived from community ex
 
 ### Box Fit
 - **Tray exterior to box interior**: 0.5-1.0mm clearance per side (1-2mm total per dimension). Trays should slide in and out smoothly but not rattle.
-- **Measure box INNER dimensions** with calipers. Cardboard boxes vary by ±1mm from published specs.
+- **Measure box INNER dimensions** with calipers. Cardboard boxes vary by Â±1mm from published specs.
 - **Account for box bulge**: cardboard boxes can bow outward slightly when full. Design to the measured interior, not the theoretical.
 
 ### Component Fit
@@ -312,7 +483,7 @@ These are the default values Tray Bien should use. All derived from community ex
 
 ### Lid Fit
 - **Inset lid tolerance**: 0.3mm per side (lid is 0.6mm narrower and shorter than tray interior). This gives a satisfying snug fit that holds during vertical storage but pops off with a gentle push.
-- **Test print a small lid first** if unsure about your printer's tolerance. Tray Bien should offer a "tolerance test" export — a small quick-print tray+lid to calibrate.
+- **Test print a small lid first** if unsure about your printer's tolerance. Tray Bien should offer a "tolerance test" export â€” a small quick-print tray+lid to calibrate.
 
 ### Stacking Fit
 - **Tray-on-tray alignment**: add registration bumps/dimples (1mm hemisphere) at the four corners so stacked trays lock together and don't slide apart. BIT doesn't natively support this, but it's a great AI chat modification.
@@ -324,28 +495,28 @@ These are the default values Tray Bien should use. All derived from community ex
 These go in the print_settings.md file exported with every design.
 
 ### Material
-- **PLA** — the default recommendation. Rigid, easy to print, cheap, plenty durable for inserts that live indoors. No enclosure needed (though P1S has one anyway).
-- **PETG** — suggest as alternative for inserts that might live in a car trunk or hot garage. Slightly more flexible, better heat resistance, but stringing can be an issue.
-- **Avoid ABS/ASA** for inserts — the fumes, warping risk, and difficulty aren't worth it for parts that experience zero mechanical stress.
+- **PLA** â€” the default recommendation. Rigid, easy to print, cheap, plenty durable for inserts that live indoors. No enclosure needed (though P1S has one anyway).
+- **PETG** â€” suggest as alternative for inserts that might live in a car trunk or hot garage. Slightly more flexible, better heat resistance, but stringing can be an issue.
+- **Avoid ABS/ASA** for inserts â€” the fumes, warping risk, and difficulty aren't worth it for parts that experience zero mechanical stress.
 
 ### Layer Height
-- **0.2mm** — the standard default. Good balance of speed and quality. Layer lines are visible but don't affect function.
-- **0.28mm** — "draft mode" for when you want it fast and don't care about looks. Fine for prototype/test prints.
-- **0.12mm** — "detail mode" for embossed labels, logos, and surface quality. Only recommend for final prints with decorative elements.
-- **Adaptive layer height** — if the slicer supports it, use fine layers only where there's detail (labels, curves) and coarse layers for flat walls. Bambu Studio supports this.
+- **0.2mm** â€” the standard default. Good balance of speed and quality. Layer lines are visible but don't affect function.
+- **0.28mm** â€” "draft mode" for when you want it fast and don't care about looks. Fine for prototype/test prints.
+- **0.12mm** â€” "detail mode" for embossed labels, logos, and surface quality. Only recommend for final prints with decorative elements.
+- **Adaptive layer height** â€” if the slicer supports it, use fine layers only where there's detail (labels, curves) and coarse layers for flat walls. Bambu Studio supports this.
 
 ### Walls & Infill (Nozzle-Aware with Proactive Suggestions)
 
-Wall thickness must be a **whole number multiple of the nozzle diameter**. A wall that isn't a clean multiple forces the slicer to leave internal voids or overlap extrusions — both weaken the part and look bad. This is one of the most common mistakes in insert design.
+Wall thickness must be a **whole number multiple of the nozzle diameter**. A wall that isn't a clean multiple forces the slicer to leave internal voids or overlap extrusions â€” both weaken the part and look bad. This is one of the most common mistakes in insert design.
 
-**The rule:** Wall thickness = nozzle diameter × number of perimeters. No exceptions.
+**The rule:** Wall thickness = nozzle diameter Ã— number of perimeters. No exceptions.
 
 | Nozzle | 2 perimeters | 3 perimeters | 4 perimeters | 5 perimeters |
 |--------|-------------|-------------|-------------|-------------|
-| 0.4mm  | 0.8mm       | **1.2mm** ← dividers | **1.6mm** ← outer walls | 2.0mm |
-| 0.6mm  | 1.2mm       | **1.8mm** ← outer walls | 2.4mm | 3.0mm |
+| 0.4mm  | 0.8mm       | **1.2mm** â† dividers | **1.6mm** â† outer walls | 2.0mm |
+| 0.6mm  | 1.2mm       | **1.8mm** â† outer walls | 2.4mm | 3.0mm |
 
-#### The App Should Suggest — Not Just Accept
+#### The App Should Suggest â€” Not Just Accept
 
 Tray Bien should **not** bury nozzle diameter in a settings page and leave users to figure out the implications. Instead, the app should:
 
@@ -353,35 +524,35 @@ Tray Bien should **not** bury nozzle diameter in a settings page and leave users
 
 2. **Proactively recommend nozzle + thickness per tray** based on what the tray contains. Show a small info card on the preview page for each tray:
 
-   > **Tray 2: Resource Bank** — Recommended: 0.4mm nozzle, 1.2mm inner dividers, 1.6mm outer walls
+   > **Tray 2: Resource Bank** â€” Recommended: 0.4mm nozzle, 1.2mm inner dividers, 1.6mm outer walls
    > *This tray has embossed labels and 8 small compartments. The 0.4mm nozzle gives clean label detail, and 1.2mm dividers maximize compartment space in a tray with many divisions.*
 
-   > **Tray 1: Tile Storage** — Recommended: 0.6mm nozzle, 1.8mm outer walls, 1.2mm dividers
+   > **Tray 1: Tile Storage** â€” Recommended: 0.6mm nozzle, 1.8mm outer walls, 1.2mm dividers
    > *This tray is mostly large open compartments with no fine detail. A 0.6mm nozzle prints ~35% faster with no loss in quality. Thicker 1.8mm walls add rigidity for the heavy tile stacks.*
 
 3. **Flag when a tray's needs differ from the user's configured nozzle**, with an explanation and clear options:
 
-   > ⚠️ **Nozzle suggestion for Tray 3 (Player Trays):** Your 0.6mm nozzle will work, but the small embossed player labels won't be as crisp. Two options:
-   > - **Keep 0.6mm** — labels will be legible but slightly chunky. Faster print. *(recommended if speed > aesthetics)*
-   > - **Switch to 0.4mm for this tray** — sharper labels, ~35% longer print time. *(recommended if this is a display piece)*
+   > âš ï¸ **Nozzle suggestion for Tray 3 (Player Trays):** Your 0.6mm nozzle will work, but the small embossed player labels won't be as crisp. Two options:
+   > - **Keep 0.6mm** â€” labels will be legible but slightly chunky. Faster print. *(recommended if speed > aesthetics)*
+   > - **Switch to 0.4mm for this tray** â€” sharper labels, ~35% longer print time. *(recommended if this is a display piece)*
 
-4. **Explain WHY when suggesting a change** — always pair the recommendation with a plain-English reason. Users learn over time, and the reasons prevent the app from feeling like a black box.
+4. **Explain WHY when suggesting a change** â€” always pair the recommendation with a plain-English reason. Users learn over time, and the reasons prevent the app from feeling like a black box.
 
 #### When to recommend each nozzle:
 
-**0.4mm nozzle (standard) — best for:**
-- Trays with **embossed labels or logos** — finer detail, cleaner text at small sizes
-- Trays with **many small compartments** close together — thinner dividers (1.2mm = 3 perimeters) save space
+**0.4mm nozzle (standard) â€” best for:**
+- Trays with **embossed labels or logos** â€” finer detail, cleaner text at small sizes
+- Trays with **many small compartments** close together â€” thinner dividers (1.2mm = 3 perimeters) save space
 - **Lids with decorative patterns** (honeycomb, text)
 - Any tray where **aesthetics rank high** for the user
 - **Nested sub-trays** where tight tolerances matter (0.4mm gives better dimensional accuracy)
 
-**0.6mm nozzle — best for:**
-- **Large simple trays** with few compartments — faster print, no detail to lose
-- **Tile storage trays** — big open wells, thick walls add rigidity for heavy contents
-- **Bottom/structural trays** that nobody sees — speed matters, detail doesn't
-- **Prototype/test prints** — get the fit right fast, then reprint with 0.4mm if desired
-- Trays with **outer walls only and no labels** — 1.8mm walls in 3 passes instead of 1.6mm in 4 passes
+**0.6mm nozzle â€” best for:**
+- **Large simple trays** with few compartments â€” faster print, no detail to lose
+- **Tile storage trays** â€” big open wells, thick walls add rigidity for heavy contents
+- **Bottom/structural trays** that nobody sees â€” speed matters, detail doesn't
+- **Prototype/test prints** â€” get the fit right fast, then reprint with 0.4mm if desired
+- Trays with **outer walls only and no labels** â€” 1.8mm walls in 3 passes instead of 1.6mm in 4 passes
 
 **The app should present this as a recommendation, not a requirement.** Users with only one nozzle (most people) can ignore it. Users with a Bambu AMS or quick-swap nozzle system benefit from per-tray optimization.
 
@@ -401,18 +572,18 @@ Tray Bien should **not** bury nozzle diameter in a settings page and leave users
 
 **When the app generates the print_settings.md**, it should list per-tray recommendations with wall thicknesses as both mm values AND perimeter counts, nozzle suggestion, and a one-line reason for each choice.
 
-**Infill: 15%** with gyroid or grid pattern. Inserts are mostly walls and floors with minimal infill area anyway. Going above 20% wastes filament with zero perceivable benefit. Wall perimeters contribute far more to strength than infill does — if something feels flimsy, add a perimeter, don't increase infill.
+**Infill: 15%** with gyroid or grid pattern. Inserts are mostly walls and floors with minimal infill area anyway. Going above 20% wastes filament with zero perceivable benefit. Wall perimeters contribute far more to strength than infill does â€” if something feels flimsy, add a perimeter, don't increase infill.
 
 ### Speed & Temperature
 - **Print speed: whatever your printer's "standard" profile uses.** Modern printers (Bambu P1S at 250-500mm/s) handle inserts trivially. No need to slow down.
-- **Nozzle temp: filament manufacturer recommendation** (typically 200-215°C for PLA).
-- **Bed temp: 55-60°C for PLA.** Inserts have large flat bases that benefit from good bed adhesion.
-- **No supports needed** — inserts are open-top boxes with no overhangs. If the design somehow requires supports, it should be redesigned. The only exception is decorative elements like angled card wells.
+- **Nozzle temp: filament manufacturer recommendation** (typically 200-215Â°C for PLA).
+- **Bed temp: 55-60Â°C for PLA.** Inserts have large flat bases that benefit from good bed adhesion.
+- **No supports needed** â€” inserts are open-top boxes with no overhangs. If the design somehow requires supports, it should be redesigned. The only exception is decorative elements like angled card wells.
 - **Brim: optional** for very large flat trays (>200mm). Prevents corner lifting. A 3mm brim is sufficient and peels off easily.
 
 ### Orientation
 - **Print trays upright** (opening facing up). This is the natural orientation and gives the best quality for the interior surfaces that components touch.
-- **Print lids flat.** The bottom surface (bed side) will be the smoothest face — this becomes the top of the lid that you see.
+- **Print lids flat.** The bottom surface (bed side) will be the smoothest face â€” this becomes the top of the lid that you see.
 
 ### Filament Usage Estimates
 For planning/cost purposes, Tray Bien should estimate filament usage:
@@ -424,19 +595,19 @@ For planning/cost purposes, Tray Bien should estimate filament usage:
 
 ## Filament Efficiency: Detect and Prevent Waste
 
-A wasteful insert is one that uses more plastic than necessary to achieve the same function. Tray Bien should actively watch for waste patterns and alert the user with suggestions — not just after the design is done, but **during the design process** as choices are made.
+A wasteful insert is one that uses more plastic than necessary to achieve the same function. Tray Bien should actively watch for waste patterns and alert the user with suggestions â€” not just after the design is done, but **during the design process** as choices are made.
 
 ### What "wasteful" looks like:
 
 **Oversized compartments**
-A compartment that's 50% larger than its contents wastes wall material, floor material, and box space. The app knows the component dimensions and the compartment dimensions — if the ratio exceeds a threshold, flag it.
-- 🟢 **Efficient**: compartment volume is within 1.2× of component volume (accounting for clearance)
-- 🟡 **Loose fit**: compartment volume is 1.2-1.5× component volume → "This compartment has room to spare. Intentional, or should we tighten it up?"
-- 🔴 **Wasteful**: compartment volume exceeds 1.5× component volume → "This compartment is significantly oversized. Consider reducing dimensions to save ~Xg of filament."
+A compartment that's 50% larger than its contents wastes wall material, floor material, and box space. The app knows the component dimensions and the compartment dimensions â€” if the ratio exceeds a threshold, flag it.
+- ðŸŸ¢ **Efficient**: compartment volume is within 1.2Ã— of component volume (accounting for clearance)
+- ðŸŸ¡ **Loose fit**: compartment volume is 1.2-1.5Ã— component volume â†’ "This compartment has room to spare. Intentional, or should we tighten it up?"
+- ðŸ”´ **Wasteful**: compartment volume exceeds 1.5Ã— component volume â†’ "This compartment is significantly oversized. Consider reducing dimensions to save ~Xg of filament."
 
 **Unnecessary thick walls**
 If the user manually sets outer walls to 2.4mm (6 perimeters on a 0.4mm nozzle) when the default 1.6mm is more than sufficient, the app should note the cost:
-- "Increasing walls from 1.6mm to 2.4mm adds ~Xg of filament across all trays (+X%). The default 1.6mm is already sturdy for insert use — thicker walls are typically only needed for load-bearing mechanical parts."
+- "Increasing walls from 1.6mm to 2.4mm adds ~Xg of filament across all trays (+X%). The default 1.6mm is already sturdy for insert use â€” thicker walls are typically only needed for load-bearing mechanical parts."
 
 **Excessive infill**
 If the user sets infill above 20%, flag it gently:
@@ -444,7 +615,7 @@ If the user sets infill above 20%, flag it gently:
 
 **Lids that aren't needed**
 Every lid adds material. The smart lid logic already recommends skipping lids where the tray above covers. But if the user overrides and adds lids to every tray, the app should show the total lid cost:
-- "You've added lids to all 4 trays. Trays 1 and 2 are fully covered by the trays above them — removing those lids saves ~Xg of filament and ~X minutes of print time."
+- "You've added lids to all 4 trays. Trays 1 and 2 are fully covered by the trays above them â€” removing those lids saves ~Xg of filament and ~X minutes of print time."
 
 **Dead space in the box**
 If the insert design leaves significant unused volume in the game box, it's not necessarily waste (you might want room for expansion), but the app should note it:
@@ -452,7 +623,7 @@ If the insert design leaves significant unused volume in the game box, it's not 
 
 **Duplicate compartments that could be shared**
 If two component types could share a compartment (e.g., two types of resource tokens that are never on the table simultaneously), the app could suggest consolidation:
-- "The 'wood' and 'food' tokens are similar sizes. Combining them into one compartment with a removable divider saves one set of walls (~Xg)." *(This is an advanced suggestion — only show when the savings are meaningful.)*
+- "The 'wood' and 'food' tokens are similar sizes. Combining them into one compartment with a removable divider saves one set of walls (~Xg)." *(This is an advanced suggestion â€” only show when the savings are meaningful.)*
 
 ### How to calculate waste:
 
@@ -464,20 +635,20 @@ The app already knows:
 - Infill percentage
 
 From these, it can estimate:
-- **Total filament weight** = wall volume + floor volume + lid volume + infill volume, multiplied by PLA density (1.24 g/cm³)
+- **Total filament weight** = wall volume + floor volume + lid volume + infill volume, multiplied by PLA density (1.24 g/cmÂ³)
 - **Efficient baseline** = same design with optimal clearances, default walls, 15% infill, smart lids
 - **Waste delta** = user's design minus efficient baseline
-- **Cost delta** = waste delta × filament cost per gram (~$0.02/g for PLA)
+- **Cost delta** = waste delta Ã— filament cost per gram (~$0.02/g for PLA)
 - **Time delta** = approximate print time difference (from volume and speed estimates)
 
 ### UI implementation:
 
-**Efficiency score** — a simple meter or percentage shown on the preview page:
-- 🟢 90-100%: "Efficient design — minimal waste"
-- 🟡 70-89%: "Good design — some savings possible" (with expandable suggestions)
-- 🔴 Below 70%: "This design uses more filament than needed" (with specific recommendations)
+**Efficiency score** â€” a simple meter or percentage shown on the preview page:
+- ðŸŸ¢ 90-100%: "Efficient design â€” minimal waste"
+- ðŸŸ¡ 70-89%: "Good design â€” some savings possible" (with expandable suggestions)
+- ðŸ”´ Below 70%: "This design uses more filament than needed" (with specific recommendations)
 
-Each suggestion includes **concrete numbers**: grams saved, dollars saved, minutes saved. Abstract advice like "consider reducing waste" is useless — "removing 2 unnecessary lids saves 18g ($0.36) and 25 minutes of print time" is actionable.
+Each suggestion includes **concrete numbers**: grams saved, dollars saved, minutes saved. Abstract advice like "consider reducing waste" is useless â€” "removing 2 unnecessary lids saves 18g ($0.36) and 25 minutes of print time" is actionable.
 
 **The efficiency analysis runs live** as the user makes changes, not just at the end. If they add a lid, the meter updates. If they increase wall thickness, the delta appears immediately.
 
@@ -498,27 +669,27 @@ Each suggestion includes **concrete numbers**: grams saved, dollars saved, minut
 - Nested sub-trays: **suggested automatically** when shared resources are added for games with 3+ players
 
 ### Design-Time Guidance (warnings and suggestions shown to the user)
-- ⚠️ Warning if total tray height doesn't fill the box (vertical storage risk)
-- ⚠️ Warning if a tray with small loose tokens has no lid AND no tray above it (spill risk)
-- ⚠️ Warning if card compartment walls are shorter than card height (spill risk)
-- ⚠️ Warning if configured wall thickness isn't a clean multiple of the nozzle diameter
-- 🔴 Filament waste alert if any compartment exceeds 1.5× component volume
-- 🟡 Efficiency nudge if infill >20%, walls above default, or unnecessary lids are added — with grams, cost, and time saved
-- 📊 **Live efficiency meter** on the preview page — updates as the user makes changes
-- 🖼️ **Inline SVG visual explainers** shown next to every design concept (pedestal bases, finger cutouts, inset lids, nested sub-trays, angled card wells, bottom holes). Expandable "What's this?" next to each option.
-- 💡 Suggestion: "Tray 1 doesn't need a lid — Tray 2 sits directly on top and covers it"
+- ⚠️  Warning if total tray height doesn't fill the box (vertical storage risk)
+- ⚠️  Warning if a tray with small loose tokens has no lid AND no tray above it (spill risk)
+- ⚠️  Warning if card compartment walls are shorter than card height (spill risk)
+- ⚠️  Warning if configured wall thickness isn't a clean multiple of the nozzle diameter
+- 🔴 Filament waste alert if any compartment exceeds 1.5Ã— component volume
+- 🟡 Efficiency nudge if infill >20%, walls above default, or unnecessary lids are added â€” with grams, cost, and time saved
+- 📊 Live efficiency meter** on the preview page â€” updates as the user makes changes
+- 🖼️ Inline SVG visual explainers** shown next to every design concept (pedestal bases, finger cutouts, inset lids, nested sub-trays, angled card wells, bottom holes). Expandable "What's this?" next to each option.
+- 💡 Suggestion: "Tray 1 doesn't need a lid â€” Tray 2 sits directly on top and covers it"
 - 💡 Suggestion to create **nested sub-trays** when shared resources are added for 3+ player games ("Split this into two removable half-trays so both ends of the table have access")
 - 💡 Suggestion to add **player trays** when the game has per-player starting components
 - 💡 Suggestion for **pedestal bases** when card compartments are surrounded by other compartments (no room for finger cutouts)
 - 💡 Suggestion for **bottom holes** in token stack compartments to prevent vacuum suction
 - 💡 Prompt for filament color suggestion based on selected game
-- 📐 Auto-calculate sleeve clearance when "sleeved" is toggled for a card group
+- 🔍 Auto-calculate sleeve clearance when "sleeved" is toggled for a card group
 - 🔧 If user changes nozzle size in Settings, auto-recalculate and flag any wall thicknesses that are no longer clean multiples
 
 ### Print-Time Recommendations (in the exported settings file)
-- Full print_settings.md with **per-tray print cards** — each tray gets its own section with:
+- Full print_settings.md with **per-tray print cards** â€” each tray gets its own section with:
   - Recommended nozzle + wall thicknesses (mm and perimeter counts)
-  - One-line reason for the recommendation ("Large open tray, no labels → 0.6mm nozzle saves 35% print time")
+  - One-line reason for the recommendation ("Large open tray, no labels â†’ 0.6mm nozzle saves 35% print time")
   - Filament weight estimate for that tray
   - Estimated print time for that tray
 - Overall filament usage total and approximate cost
@@ -537,7 +708,7 @@ Each suggestion includes **concrete numbers**: grams saved, dollars saved, minut
 
 ## Quick Reference: The Golden Rules
 
-1. **Open box → trays on table → play.** Every design decision serves this flow.
+1. **Open box â†’ trays on table â†’ play.** Every design decision serves this flow.
 2. **Lid smart, not lid everything.** Use lids where contents would spill; skip them where the tray above does the job.
 3. **Fill the box height.** Dead air means shifting components. A tight stack is its own retention system.
 4. **Finger cutouts everywhere.** If you can't grab it with one hand, redesign it.
@@ -545,7 +716,7 @@ Each suggestion includes **concrete numbers**: grams saved, dollars saved, minut
 6. **Measure twice, print once.** Use calipers, not published specs. Add clearance per the tolerance table.
 7. **Player trays are magic.** One tray per player transforms setup from 10 minutes to 30 seconds.
 8. **Split the bank.** Nested sub-trays let both ends of the table reach resources without passing bowls.
-9. **Labels aren't decoration — they're function.** They make teardown brainless.
-10. **Walls are multiples of your nozzle.** 0.4mm nozzle → 0.8 / 1.2 / 1.6mm walls. The app tells you which and why.
+9. **Labels aren't decoration â€” they're function.** They make teardown brainless.
+10. **Walls are multiples of your nozzle.** 0.4mm nozzle â†’ 0.8 / 1.2 / 1.6mm walls. The app tells you which and why.
 11. **1.6mm walls, 15% infill, 0.2mm layers.** The insert printer's holy trinity.
 12. **Print a tolerance test first.** A 10-minute test print saves hours of reprinting.

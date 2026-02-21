@@ -1,179 +1,163 @@
 """
-Box Setup - Step 1 of design wizard
+Box dimensions — compact inline section merged into Step 1 (Box & Components).
 
-Select known game box or enter custom dimensions.
+Provides render_box_section() which renders a single compact row:
+  Design name | Length | Width | Height | Save
+
+The old render_box_setup() measuring guide, SVG diagram, and volume metrics
+have been removed. Dimension inputs use help= tooltips instead.
+
+load_common_boxes() is preserved for future preset support.
 """
 
 import streamlit as st
 import json
 from pathlib import Path
+from datetime import datetime, timezone
 
 
 def load_common_boxes():
-    """Load the common_boxes.json data file"""
+    """Load the common_boxes.json data file (reserved for future preset support)."""
     data_file = Path(__file__).parent.parent / "data" / "common_boxes.json"
     with open(data_file, 'r') as f:
         data = json.load(f)
     return data['boxes']
 
 
-def render_box_setup():
-    """Render the box setup UI"""
+def _save_design():
+    """Save callback — reads current session state and writes to storage."""
+    from storage.design_storage import save_design
 
-    st.markdown("### 📦 Step 1: Box Setup")
-    st.markdown("Choose a known board game box or enter custom dimensions.")
+    design_name = st.session_state.get('design_name', '')
+    config = st.session_state.get('box_config', {})
 
-    # Initialize session state
+    design_data = {
+        'metadata': {
+            'name': design_name,
+            'created_at': st.session_state.get(
+                'created_at',
+                datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
+            ),
+            'modified_at': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
+            'version': 1,
+        },
+        'box_config': config,
+        'components': st.session_state.get('components', []),
+        'tray_analysis': st.session_state.get('tray_analysis', None),
+        'tray_structure_accepted': st.session_state.get('tray_structure_accepted', False),
+        'layout_preferences': {
+            'storage_orientation': st.session_state.get('layout_storage_orientation', 'vertical'),
+            'tray_config': st.session_state.get('layout_tray_config', 'multi'),
+            'tray_count': st.session_state.get('layout_tray_count', 2),
+            'per_tray_lids': st.session_state.get('layout_per_tray_lids', {}),
+            'per_tray_finger_cutouts': st.session_state.get('layout_per_tray_finger_cutouts', {}),
+            'corner_style': st.session_state.get('layout_corner_style', 'rounded'),
+            'corner_radius_mm': st.session_state.get('layout_corner_radius_mm', 2.0),
+            'per_tray_corner_radius': st.session_state.get('layout_per_tray_corner_radius', {}),
+            'labels_enabled': st.session_state.get('layout_labels_enabled', True),
+        },
+    }
+
+    try:
+        filename = save_design(design_data)
+        if 'created_at' not in st.session_state:
+            st.session_state.created_at = design_data['metadata']['created_at']
+        st.session_state._save_success = True
+        st.session_state._save_error = None
+    except Exception as e:
+        st.session_state._save_success = False
+        st.session_state._save_error = str(e)
+
+
+def render_box_section():
+    """Compact box dimensions row — merged into Step 1 (Box & Components).
+
+    Renders: Design name | Length | Width | Height | Save button
+    All on one row. Volume shown as a caption below.
+    """
+    # Initialize box_config if missing
     if 'box_config' not in st.session_state:
         st.session_state.box_config = {
-            'source': 'known',  # 'known' or 'custom'
+            'source': 'custom',
             'game_name': None,
             'length': 296,
             'width': 296,
-            'height': 71
+            'height': 71,
         }
-
     config = st.session_state.box_config
 
-    # Box source selection
-    col1, col2 = st.columns([1, 1])
+    st.subheader("Box dimensions")
 
-    with col1:
-        source = st.radio(
-            "Box dimensions:",
-            options=['known', 'custom'],
-            format_func=lambda x: "📚 Known Game" if x == 'known' else "📏 Custom Dimensions",
-            index=0 if config['source'] == 'known' else 1,
-            horizontal=True
+    name_col, l_col, w_col, h_col, save_col = st.columns([3, 1, 1, 1, 1])
+
+    with name_col:
+        design_name = st.text_input(
+            "Design name",
+            value=st.session_state.get('design_name', config.get('game_name', '')),
+            key="design_name_input",
+            placeholder="e.g., Wingspan Insert",
+            help="Name for this insert design",
         )
-        config['source'] = source
+        # Keep session state and config in sync
+        if design_name:
+            st.session_state.design_name = design_name
+            config['game_name'] = design_name
 
-    # Load known boxes
-    common_boxes = load_common_boxes()
-    box_names = list(common_boxes.keys())
-    box_options = [f"{name} ({common_boxes[name]['dimensions']['length']}×{common_boxes[name]['dimensions']['width']}×{common_boxes[name]['dimensions']['height']}mm)"
-                   for name in box_names]
-
-    if source == 'known':
-        # Searchable dropdown for known games
-        selected_option = st.selectbox(
-            "Select game:",
-            options=box_options,
-            index=box_options.index(next((opt for opt in box_options if config['game_name'] and config['game_name'] in opt), box_options[0])) if config['game_name'] else 0,
-            help="Choose from 20+ popular board games with pre-measured dimensions"
-        )
-
-        # Extract game name from selection
-        selected_name = selected_option.split(' (')[0]
-        config['game_name'] = selected_name
-
-        # Update dimensions from selected game
-        box_data = common_boxes[selected_name]
-        config['length'] = box_data['dimensions']['length']
-        config['width'] = box_data['dimensions']['width']
-        config['height'] = box_data['dimensions']['height']
-
-        # Show notes if available
-        if 'notes' in box_data:
-            st.info(f"💡 **{selected_name}:** {box_data['notes']}")
-
-    else:
-        # Custom dimensions input
-        config['game_name'] = st.text_input(
-            "Game name (optional):",
-            value=config.get('game_name', '') if config.get('game_name') not in common_boxes else '',
-            placeholder="My Custom Game"
+    with l_col:
+        config['length'] = st.number_input(
+            "Length (mm)",
+            min_value=50,
+            max_value=500,
+            value=config['length'],
+            step=1,
+            help="Interior length — measure inside the box walls at the base, not the outside",
         )
 
-        st.markdown("**Interior box dimensions** (measure with calipers):")
+    with w_col:
+        config['width'] = st.number_input(
+            "Width (mm)",
+            min_value=50,
+            max_value=500,
+            value=config['width'],
+            step=1,
+            help="Interior width — measure inside the box walls at the base, perpendicular to length",
+        )
 
-        dim_col1, dim_col2, dim_col3 = st.columns(3)
+    with h_col:
+        config['height'] = st.number_input(
+            "Height (mm)",
+            min_value=20,
+            max_value=200,
+            value=config['height'],
+            step=1,
+            help="Interior depth — from inside the bottom to where the lid sits. Do not include lid height.",
+        )
 
-        with dim_col1:
-            config['length'] = st.number_input(
-                "Length (mm):",
-                min_value=50,
-                max_value=500,
-                value=config['length'],
-                step=1,
-                help="Longest interior dimension"
-            )
+    with save_col:
+        # Align button with the number inputs
+        st.markdown("<div style='margin-top:28px'></div>", unsafe_allow_html=True)
+        st.button(
+            "Save",
+            on_click=_save_design,
+            disabled=not design_name,
+            use_container_width=True,
+        )
 
-        with dim_col2:
-            config['width'] = st.number_input(
-                "Width (mm):",
-                min_value=50,
-                max_value=500,
-                value=config['width'],
-                step=1,
-                help="Shorter interior dimension"
-            )
+    # Show save result from previous click (on_click runs before rerender)
+    if st.session_state.get('_save_success'):
+        st.success(f"Saved as '{design_name}'")
+        st.session_state._save_success = False
+    elif st.session_state.get('_save_error'):
+        st.error(f"Save failed: {st.session_state._save_error}")
+        st.session_state._save_error = None
 
-        with dim_col3:
-            config['height'] = st.number_input(
-                "Height (mm):",
-                min_value=20,
-                max_value=200,
-                value=config['height'],
-                step=1,
-                help="Interior depth of box"
-            )
-
-        st.caption("💡 **Tip:** Measure the INNER dimensions of your box, not the outer. Subtract ~2mm per side from outer dimensions for cardboard thickness.")
-
-    # Lid clearance slider
-    # Calculate available volume
-    st.markdown("---")
-    st.markdown("#### 📊 Available Interior Volume")
-
-    available_height = config['height']
-    available_volume_cm3 = (config['length'] * config['width'] * available_height) / 1000
-
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.metric("Length", f"{config['length']} mm")
-    with col2:
-        st.metric("Width", f"{config['width']} mm")
-    with col3:
-        st.metric("Height", f"{available_height} mm")
-    with col4:
-        st.metric("Volume", f"{available_volume_cm3:.1f} cm³")
-
-    # Visual box diagram
-    st.markdown("---")
-    st.markdown("#### 📐 Box Outline")
-
-    # Generate simple SVG box diagram
-    svg_scale = 0.5  # Scale down for display
-    svg_width = config['length'] * svg_scale
-    svg_height = config['width'] * svg_scale
-
-    # Limit SVG size for display
-    max_svg_size = 300
-    if svg_width > max_svg_size or svg_height > max_svg_size:
-        scale_factor = max_svg_size / max(svg_width, svg_height)
-        svg_width *= scale_factor
-        svg_height *= scale_factor
-
-    # Generate SVG as single-line string to prevent markdown code block rendering
-    box_svg = (
-        f'<svg width="{svg_width + 40}" height="{svg_height + 60}" xmlns="http://www.w3.org/2000/svg">'
-        f'<rect x="20" y="20" width="{svg_width}" height="{svg_height}" fill="#f0f0f0" stroke="#333" stroke-width="2"/>'
-        f'<text x="{svg_width/2 + 20}" y="15" font-size="12" fill="#666" text-anchor="middle">{config["length"]} mm</text>'
-        f'<text x="10" y="{svg_height/2 + 20}" font-size="12" fill="#666" text-anchor="middle" transform="rotate(-90, 10, {svg_height/2 + 20})">{config["width"]} mm</text>'
-        f'<text x="{svg_width + 25}" y="{svg_height/2 + 20}" font-size="11" fill="#999">↕ {available_height}mm</text>'
-        f'<text x="{svg_width + 25}" y="{svg_height/2 + 35}" font-size="9" fill="#999">available</text>'
-        f'</svg>'
+    # Volume caption
+    vol_cm3 = config['length'] * config['width'] * config['height'] / 1000
+    st.caption(
+        f"Interior: {config['length']} × {config['width']} × {config['height']} mm "
+        f"— {vol_cm3:.0f} cm³"
     )
 
-    # Render SVG centered
-    st.markdown(f'<div style="text-align: center;">{box_svg}</div>', unsafe_allow_html=True)
-
-    # Validation warnings
-    if available_height < 30:
-        st.warning("⚠️ Very shallow box - limited space for components.")
-
-    if config['length'] * config['width'] > 400 * 400:
-        st.info("💡 Large box footprint - consider multi-tray stacking to fill vertical space efficiently.")
+    st.divider()
 
     return config

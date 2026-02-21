@@ -1,5 +1,5 @@
 """
-Settings - Configure AI provider, nozzle diameter, and printer settings
+Printer & AI Setup - Configure AI provider, nozzle diameter, and printer settings
 """
 
 import streamlit as st
@@ -7,15 +7,15 @@ import json
 from pathlib import Path
 
 st.set_page_config(
-    page_title="Settings - Tray Bien",
-    page_icon="⚙️",
+    page_title="Printer & AI Setup - Tray Bien",
+    page_icon="🖨️",
     layout="wide",
 )
 
-st.title("⚙️ Settings")
+st.title("🖨️ Printer & AI Setup")
 
 # Settings file path
-settings_dir = Path(__file__).parent.parent.parent / "saved_designs"
+settings_dir = Path(__file__).parent.parent / "saved_designs"
 settings_dir.mkdir(exist_ok=True)
 settings_file = settings_dir / ".settings.json"
 
@@ -26,7 +26,7 @@ if settings_file.exists():
 else:
     settings = {
         'nozzle_diameter': 0.4,
-        'ai_provider': 'none',
+        'ai_provider': 'claude',
         'api_keys': {},
         'printer': {},
         'first_time_setup': True
@@ -34,9 +34,12 @@ else:
 
 # Save settings function
 def save_settings():
-    with open(settings_file, 'w') as f:
-        json.dump(settings, f, indent=2)
-    st.success("✅ Settings saved successfully!")
+    try:
+        with open(settings_file, 'w') as f:
+            json.dump(settings, f, indent=2)
+        st.success(f"✅ Settings saved successfully to {settings_file}!")
+    except Exception as e:
+        st.error(f"❌ Failed to save settings: {str(e)}")
 
 # First-time setup banner
 if settings.get('first_time_setup', True):
@@ -113,10 +116,18 @@ provider_choice = st.selectbox(
     index=list(provider_options.values()).index(settings.get('ai_provider', 'none'))
 )
 
-settings['ai_provider'] = provider_options[provider_choice]
+# Store selection in temporary variable (will be saved only when button clicked)
+selected_provider = provider_options[provider_choice]
+
+# Initialize all widget value variables
+gemini_key = None
+claude_key = None
+openai_key = None
+ollama_url = None
+ollama_model = None
 
 # Provider-specific configuration
-if settings['ai_provider'] == 'none':
+if selected_provider == 'none':
     st.info("""
     **None mode** uses pre-built templates for common insert patterns.
     No AI calls, no API key needed. Perfect for simple designs!
@@ -124,7 +135,7 @@ if settings['ai_provider'] == 'none':
     To unlock AI chat refinement and layout optimization, configure a provider above.
     """)
 
-elif settings['ai_provider'] == 'gemini':
+elif selected_provider == 'gemini':
     with st.expander("Google Gemini Configuration", expanded=True):
         st.markdown("""
         **Free tier available!** Get your API key at: https://ai.google.dev
@@ -137,10 +148,8 @@ elif settings['ai_provider'] == 'gemini':
             value=settings['api_keys'].get('gemini', ''),
             type='password'
         )
-        if gemini_key:
-            settings['api_keys']['gemini'] = gemini_key
 
-elif settings['ai_provider'] == 'claude':
+elif selected_provider == 'claude':
     with st.expander("Anthropic Claude Configuration", expanded=True):
         st.markdown("""
         Get your API key at: https://console.anthropic.com
@@ -153,10 +162,8 @@ elif settings['ai_provider'] == 'claude':
             value=settings['api_keys'].get('claude', ''),
             type='password'
         )
-        if claude_key:
-            settings['api_keys']['claude'] = claude_key
 
-elif settings['ai_provider'] == 'openai':
+elif selected_provider == 'openai':
     with st.expander("OpenAI Configuration", expanded=True):
         st.markdown("""
         Get your API key at: https://platform.openai.com
@@ -169,10 +176,8 @@ elif settings['ai_provider'] == 'openai':
             value=settings['api_keys'].get('openai', ''),
             type='password'
         )
-        if openai_key:
-            settings['api_keys']['openai'] = openai_key
 
-elif settings['ai_provider'] == 'ollama':
+elif selected_provider == 'ollama':
     with st.expander("Local Ollama Configuration", expanded=True):
         st.markdown("""
         Ollama runs AI models locally on your machine (free, private, no API key needed).
@@ -186,13 +191,11 @@ elif settings['ai_provider'] == 'ollama':
             "Ollama URL:",
             value=settings.get('ollama_url', 'http://localhost:11434')
         )
-        settings['ollama_url'] = ollama_url
 
         ollama_model = st.text_input(
             "Model name:",
             value=settings.get('ollama_model', 'llama3.1')
         )
-        settings['ollama_model'] = ollama_model
 
 # ===== BAMBU LABS PRINTER INTEGRATION =====
 st.markdown("## 🖨️ Bambu Labs Printer Integration (Optional)")
@@ -226,12 +229,6 @@ with st.expander("Connect Your Bambu Lab Printer"):
     )
 
     if printer_ip and printer_serial and printer_access_code:
-        settings['printer'] = {
-            'ip': printer_ip,
-            'serial': printer_serial,
-            'access_code': printer_access_code
-        }
-
         if st.button("🔌 Test Connection"):
             st.info("⏳ Testing connection... (Feature coming in Phase 6)")
             # TODO: Implement actual connection test
@@ -243,6 +240,31 @@ col1, col2, col3 = st.columns([1, 1, 2])
 
 with col1:
     if st.button("💾 Save Settings", type="primary", use_container_width=True):
+        # NOW update the settings dict with all widget values
+        settings['ai_provider'] = selected_provider
+
+        # Update API keys based on selected provider
+        if selected_provider == 'gemini' and gemini_key:
+            settings['api_keys']['gemini'] = gemini_key
+        elif selected_provider == 'claude' and claude_key:
+            settings['api_keys']['claude'] = claude_key
+        elif selected_provider == 'openai' and openai_key:
+            settings['api_keys']['openai'] = openai_key
+        elif selected_provider == 'ollama':
+            if ollama_url:
+                settings['ollama_url'] = ollama_url
+            if ollama_model:
+                settings['ollama_model'] = ollama_model
+
+        # Update printer settings
+        settings['printer'] = {}
+        if printer_ip:
+            settings['printer']['ip'] = printer_ip
+        if printer_serial:
+            settings['printer']['serial'] = printer_serial
+        if printer_access_code:
+            settings['printer']['access_code'] = printer_access_code
+
         settings['first_time_setup'] = False
         save_settings()
 

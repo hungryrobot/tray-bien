@@ -12,6 +12,8 @@ requests>=2.31.0
 
 # PDF Processing
 pdfplumber>=0.10.0
+pytesseract>=0.3.13
+pdf2image>=1.16.3
 
 # Optional: Bambu Labs printer integration (install separately if needed)
 # bambulabs-api>=0.5.0

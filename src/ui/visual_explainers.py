@@ -312,6 +312,100 @@ def clearance_zones_diagram() -> str:
     )
 
 
+def finger_cutout_enhanced_diagram() -> str:
+    """Enhanced finger cutout showing depth and curve geometry."""
+    return """<svg width="200" height="120" xmlns="http://www.w3.org/2000/svg">
+        <!-- Compartment wall cross-section -->
+        <rect x="20" y="40" width="160" height="60" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+
+        <!-- Finger cutout scoop (30mm wide, 15mm deep curve) -->
+        <path d="M 80 100 Q 100 85, 120 100" fill="white" stroke="#1f77b4" stroke-width="2"/>
+
+        <!-- Dimension arrows -->
+        <defs>
+            <marker id="arrowblue_cutout" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#1f77b4"/>
+            </marker>
+        </defs>
+        <line x1="80" y1="110" x2="120" y2="110" stroke="#1f77b4" stroke-width="1" marker-start="url(#arrowblue_cutout)" marker-end="url(#arrowblue_cutout)"/>
+        <text x="100" y="118" font-size="9" fill="#1f77b4" text-anchor="middle">30mm</text>
+
+        <!-- Depth marker -->
+        <line x1="125" y1="100" x2="125" y2="85" stroke="#1f77b4" stroke-width="1" stroke-dasharray="2,2" marker-end="url(#arrowblue_cutout)"/>
+        <text x="135" y="93" font-size="9" fill="#1f77b4">15mm deep</text>
+
+        <!-- Labels -->
+        <text x="100" y="15" font-size="11" font-weight="bold" fill="#333" text-anchor="middle">Finger Cutout Cross-Section</text>
+        <text x="30" y="65" font-size="9" fill="#666">Compartment wall</text>
+    </svg>"""
+
+
+def wall_thickness_enhanced_diagram() -> str:
+    """Cross-section showing both outer (4 perimeter) and inner (3 perimeter) walls."""
+    return """<svg width="200" height="120" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer wall (4 perimeters) -->
+        <g transform="translate(30, 30)">
+            <line x1="0" y1="0" x2="0" y2="50" stroke="#333" stroke-width="2"/>
+            <line x1="4" y1="0" x2="4" y2="50" stroke="#333" stroke-width="1.5"/>
+            <line x1="8" y1="0" x2="8" y2="50" stroke="#333" stroke-width="1.5"/>
+            <line x1="12" y1="0" x2="12" y2="50" stroke="#333" stroke-width="2"/>
+
+            <text x="6" y="-5" font-size="9" fill="#333" text-anchor="middle">Outer Wall</text>
+            <text x="6" y="65" font-size="8" fill="#1f77b4" text-anchor="middle">1.6mm (4×0.4)</text>
+        </g>
+
+        <!-- Inner wall (3 perimeters) -->
+        <g transform="translate(120, 30)">
+            <line x1="0" y1="0" x2="0" y2="50" stroke="#333" stroke-width="2"/>
+            <line x1="4" y1="0" x2="4" y2="50" stroke="#333" stroke-width="1.5"/>
+            <line x1="8" y1="0" x2="8" y2="50" stroke="#333" stroke-width="2"/>
+
+            <text x="4" y="-5" font-size="9" fill="#333" text-anchor="middle">Inner Divider</text>
+            <text x="4" y="65" font-size="8" fill="#1f77b4" text-anchor="middle">1.2mm (3×0.4)</text>
+        </g>
+
+        <!-- Title -->
+        <text x="100" y="15" font-size="11" font-weight="bold" fill="#333" text-anchor="middle">Wall Thickness (0.4mm Nozzle)</text>
+    </svg>"""
+
+
+def corner_styles_comparison_diagram() -> str:
+    """Side-by-side comparison of sharp vs rounded corners."""
+    return """<svg width="200" height="120" xmlns="http://www.w3.org/2000/svg">
+        <!-- Sharp corner (left) -->
+        <g transform="translate(30, 30)">
+            <rect x="0" y="0" width="40" height="40" fill="none" stroke="#333" stroke-width="2"/>
+            <text x="20" y="-5" font-size="9" fill="#333" text-anchor="middle">Sharp</text>
+            <text x="20" y="55" font-size="8" fill="#666" text-anchor="middle">90° corner</text>
+        </g>
+
+        <!-- Rounded corner (right) -->
+        <g transform="translate(130, 30)">
+            <rect x="0" y="0" width="40" height="40" rx="4" ry="4" fill="none" stroke="#1f77b4" stroke-width="2"/>
+            <text x="20" y="-5" font-size="9" fill="#1f77b4" text-anchor="middle">Rounded</text>
+            <text x="20" y="55" font-size="8" fill="#1f77b4" text-anchor="middle">2mm radius</text>
+
+            <!-- Radius arc marker -->
+            <path d="M 0 4 Q 0 0, 4 0" fill="none" stroke="#1f77b4" stroke-width="1" stroke-dasharray="2,1"/>
+            <text x="2" y="2" font-size="7" fill="#1f77b4">r</text>
+        </g>
+
+        <!-- Title -->
+        <text x="100" y="15" font-size="11" font-weight="bold" fill="#333" text-anchor="middle">Corner Styles</text>
+
+        <!-- Checkmark on rounded -->
+        <text x="170" y="50" font-size="16" fill="#28a745">✓</text>
+    </svg>"""
+
+
+def measuring_guide_diagram() -> str:
+    """
+    SVG diagram showing how to measure box interior dimensions.
+    Shows cross-section view with calipers measuring inside walls.
+    """
+    return '<svg width="450" height="300" viewBox="0 0 450 300" xmlns="http://www.w3.org/2000/svg"><!-- Box cross-section (brown cardboard) --><rect x="50" y="80" width="300" height="180" fill="#D4A574" stroke="#8B4513" stroke-width="3"/><!-- Interior space (white) --><rect x="65" y="95" width="270" height="150" fill="#FFFFFF" stroke="#666" stroke-width="1" stroke-dasharray="2,2"/><!-- Calipers (measuring width) --><line x1="65" y1="50" x2="335" y2="50" stroke="#FF0000" stroke-width="3" marker-end="url(#arrowhead-red)" marker-start="url(#arrowhead-red)"/><text x="200" y="40" text-anchor="middle" fill="#FF0000" font-weight="bold" font-size="16">WIDTH (interior)</text><!-- Calipers (measuring length) --><line x1="380" y1="95" x2="380" y2="245" stroke="#0000FF" stroke-width="3" marker-end="url(#arrowhead-blue)" marker-start="url(#arrowhead-blue)"/><text x="380" y="170" fill="#0000FF" font-weight="bold" font-size="14" text-anchor="end">LENGTH</text><text x="380" y="185" fill="#0000FF" font-size="12" text-anchor="end">(interior)</text><!-- Labels --><text x="200" y="270" text-anchor="middle" font-size="14">✓ Measure INSIDE walls</text><text x="200" y="290" text-anchor="middle" font-size="12" fill="#666">(NOT outside of box)</text><!-- Arrow markers --><defs><marker id="arrowhead-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#FF0000"/></marker><marker id="arrowhead-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#0000FF"/></marker></defs></svg>'
+
+
 # Dictionary mapping concept names to diagram functions
 DIAGRAMS = {
     'pedestal_base': pedestal_base_diagram,
@@ -322,6 +416,10 @@ DIAGRAMS = {
     'angled_card_well': angled_card_well_diagram,
     'wall_thickness': wall_thickness_diagram,
     'clearance_zones': clearance_zones_diagram,
+    'finger_cutout_enhanced': finger_cutout_enhanced_diagram,
+    'wall_thickness_enhanced': wall_thickness_enhanced_diagram,
+    'corner_styles': corner_styles_comparison_diagram,
+    'measuring_guide': measuring_guide_diagram,
 }
 
 
